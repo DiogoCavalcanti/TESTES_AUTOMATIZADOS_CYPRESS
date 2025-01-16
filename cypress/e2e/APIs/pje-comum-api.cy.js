@@ -87,7 +87,7 @@ describe('Teste de requisição API', () => {
     it('Busca um Assunto por ID', ()=>{
       cy.request({
         method: 'GET',
-        url: 'pje-comum-api/api/dominio/assuntos/5'
+        url: 'pje-comum-api/api/dominio/assuntos/4170'
       }).then((response)=>{
         expect(response.status).to.eq(200)
         console.log(response.body)
@@ -98,8 +98,8 @@ describe('Teste de requisição API', () => {
       cy.getCookie('Xsrf-Token').should('exist').then((cookie) => {
         const token = cookie.value;
     cy.request({
-      method: 'POST', // Método POST
-      url: '/pje-comum-api/api/processos/id/259274/assuntos', // URL
+      method: 'POST', 
+      url: '/pje-comum-api/api/processos/id/259274/assuntos',
       headers: {
         'Content-Type': 'application/json',
         Accept: '*/*',
@@ -107,25 +107,18 @@ describe('Teste de requisição API', () => {
       },
       failOnStatusCode: false,
       body: {
-        id: 4234,
+        //id: 77,
         idProcesso: 259274,
         assunto: {
-          //id: 4234,
-          //idAssuntoSuperior: 4198,
-          codigo: '13694',
-          //descricao: 'Adicional de Risco',
-          assuntoCompleto: 'DIREITO DO TRABALHO (864) / Direito Individual do Trabalho (12936) / Categoria Profissional Especial (13641) / Empregados Portuários (13658) / Adicional de Risco',
-          //assuntoResumido: 'Empregados Portuários / Adicional de Risco',
-          //nivel: 4,
-          //podeAdicionarAoProcesso: true,
-          //possuiFilhos: false,
-          //filhos: [null]
+          id: 4170,
+          idAssuntoSuperior: 4167,
+          codigo: '13630',
+          
         },
         principal: true
       }
     }).then((response) => {
-      // Aqui você pode adicionar o que fazer com a resposta
-      console.log(response.body); // Exibe o corpo da resposta no console
+      console.log(response.body);
     });
   });
 });
@@ -135,7 +128,7 @@ describe('Teste de requisição API', () => {
         const token = cookie.value;
       cy.request({
         method: 'DELETE',
-        url: '/pje-comum-api/api/processos/id/259274/assuntos/4234',
+        url: '/pje-comum-api/api/processos/id/259274/assuntos/4167',
         headers: {
           'Content-Type': 'application/json',
           Accept: '*/*',
@@ -144,28 +137,57 @@ describe('Teste de requisição API', () => {
         failOnStatusCode: false,
       }).then((response)=>{
         //expect(response.status).to.eq(200)
-        console.log(response.body)
+        console.log(response.status)
       })
     })
   })
 
-    /*it('', ()=>{
+    it('Lista os complementos referentes a acordo parcial na assinatura de audiência', ()=>{
       cy.request({
         method: 'GET',
-        url: ''
+        url: '/pje-comum-api/api/atasaudiencia/complementos-acordo-parcial'
       }).then((response)=>{
         expect(response.status).to.eq(200)
+        console.log(response.body)
+      })
+    })
+
+    it('Conta o número de atas não pendentes', ()=>{
+      cy.request({
+        method: 'GET',
+        url: '/pje-comum-api/api/atasaudiencia/totais',
+        failOnStatusCode: false
+      }).then((response)=>{
+        expect(response.status).to.eq(200)
+        console.log(response.body)
+      })
+    })
+
+    it('Consulta pessoas fisicas/advogados', ()=>{
+      cy.request({
+        method: 'GET',
+        url: 'pje-comum-api/api/pessoas/fisicas',
+        failOnStatusCode: false
+      }).then((response)=>{
+        expect(response.status).to.eq(200)
+        console.log(response.body)
+        console.log('Total de registros: ', response.body.totalRegistros)
+        console.log('Total de paginas: ', response.body.qtdPaginas)
       })
     })
 
     it('', ()=>{
       cy.request({
-        method: 'GET',
-        url: ''
+        method: 'HEAD',
+        url: '/pje-comum-api/api/pessoas/fisicas/advogados/208511',
+        failOnStatusCode: false
       }).then((response)=>{
-        expect(response.status).to.eq(200)
+        //expect(response.status).to.eq(200)
+        console.log(response.body)
       })
-    })*/
+    })
+
+
     
 
 });
