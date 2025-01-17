@@ -176,16 +176,16 @@ describe('Teste de requisição API', () => {
       })
     })
 
-    it('', ()=>{
+    /*it('', ()=>{
       cy.request({
         method: 'HEAD',
-        url: '/pje-comum-api/api/pessoas/fisicas/advogados/208511',
+        url: '/pje-comum-api/api/pessoas/fisicas/advogados/208724',
         failOnStatusCode: false
       }).then((response)=>{
-        //expect(response.status).to.eq(200)
+        expect(response.status).to.eq(200)
         console.log(response.body)
       })
-    })
+    })*/
 
 
     

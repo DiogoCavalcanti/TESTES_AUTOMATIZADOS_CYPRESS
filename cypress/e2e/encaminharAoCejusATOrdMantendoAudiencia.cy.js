@@ -55,6 +55,12 @@ describe('ProtocolarRTOrdContraPGFN', ()=>{
          cy.get('.botao-protocolar').click();
          cy.get('form.ng-pristine > .mat-action-row > .mat-primary').click();
          cy.get('[type="submit"]').click();
+
+         //Logout
+         cy.get('.icone-usuario > .mat-button-wrapper > .fa').click();
+         cy.get('.mat-warn').click();
+         cy.url().should('be.equal', 'https://desenvolvimento.pje.csjt.jus.br/primeirograu/login.seam')
+
          
 
     })
