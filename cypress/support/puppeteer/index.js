@@ -5,7 +5,7 @@ module.exports = function puppeteerSetup(on) {
       on,
       onMessage: {
         async switchTabAndGetContent (browser) {
-          //const page = await pageRetrier(browser, 'https://desenvolvimento.pje.csjt.jus.br/pjekz/processo/365975/tarefa/63/transicao')
+        
           const page = await pageRetrier(browser, 'https://desenvolvimento.pje.csjt.jus.br/pjekz/processo/365973/tarefa/480/comunicacoesprocessuais/minutas')
           await page.bringToFront()
           
