@@ -5,10 +5,12 @@ describe('Fazer uma intimação no PEC no novo processo', ()=>{
 
     it('', ()=>{
 
-        cy.visit('https://desenvolvimento.pje.csjt.jus.br/pjekz/processo/365973/tarefa/63/transicao')
-        /*cy.visit('https://desenvolvimento.pje.csjt.jus.br/pjekz/painel/gim');
+        cy.visit('https://desenvolvimento.pje.csjt.jus.br/pjekz/processo/365973/tarefa/480/comunicacoesprocessuais/minutas')
 
-        cy.get(':nth-child(3) > .container-item-menu').click();
+        //cy.visit('https://desenvolvimento.pje.csjt.jus.br/pjekz/processo/365973/tarefa/63/transicao')
+        //cy.visit('https://desenvolvimento.pje.csjt.jus.br/pjekz/painel/gim');
+
+        /*cy.get(':nth-child(3) > .container-item-menu').click();
         cy.get('#inputNumeroProcesso').type('0000166-67.2025.5.10.0999');
 
         cy.get('.clicavel-sem-padding > span').click();
@@ -17,8 +19,8 @@ describe('Fazer uma intimação no PEC no novo processo', ()=>{
 
         //cy.visit('https://desenvolvimento.pje.csjt.jus.br/pjekz/processo/365975/tarefa/63/transicao');
 
-        //cy.puppeteer("switchTabAndGetContent")
-        //.should('equal', " Triagem Inicial ")*/
+        cy.puppeteer("switchTabAndGetContent")
+        .should('equal', " Triagem Inicial ")*/
     })
 })
 

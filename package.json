@@ -13,6 +13,7 @@
     "@cypress/puppeteer": "^0.1.5",
     "cypress": "^13.17.0",
     "cypress-mochawesome-reporter": "^3.8.2",
-    "cypress-multi-reporters": "^2.0.4"
+    "cypress-multi-reporters": "^2.0.4",
+    "cypress-split": "^1.24.7"
   }
 }
