@@ -1,9 +1,9 @@
-describe('Teste de requisição API', () => {
+describe('Testes das APIs de assuntos do pje comum', () => {
     beforeEach('Deve fazer uma requisição POST para logar via API', () => {
       cy.loginViaApi('loginMagistrado');    //Mudar o tipo de usuário de acordo com os armazenados na pasta fixtures
     });
 
-    it('Busca todos os assuntos', ()=>{
+    it('Busca todos os assuntos',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
       cy.request({
         method: 'GET',
         url: '/pje-comum-api/api/dominio/assuntos',
@@ -11,23 +11,28 @@ describe('Teste de requisição API', () => {
         expect(response.status).to.eq(200);
         expect(response.body[2].descricao).to.eq('Magistratura')
         expect(response.body[2]).to.have.property('codigo')
-        console.log(response.body.length);
-        console.log(response.body)
+        assert.isArray(response.body)
+        console.log('Endpoint:  /pje-comum-api/api/dominio/assuntos')
+        console.log('Tamanho do array:', response.body.length);
+        console.log('Assuntos:', response.body)
     })
-    })
+    }) 
 
-    it('Busca assuntos em formato de árvore', ()=>{
+    it('Busca assuntos em formato de árvore',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
       cy.request({
         method: 'GET',
         url: '/pje-comum-api/api/dominio/assuntos/arvore'
       }).then((response)=>{
         expect(response.status).to.eq(200);
         expect(response.body[3].descricao).to.eq('DIREITO À EDUCAÇÃO')
-        console.log(response.body.length)
+        assert.isArray(response.body)
+        console.log('Endpoint : /pje-comum-api/api/dominio/assuntos/arvore')
+        console.log('Tamanho do array:', response.body.length)
+        console.log('Corpo da resposta:', response.body)
       })
     })
 
-    it('Recupera id e descrição dos assuntos.',()=>{
+    it('Recupera id e descrição dos assuntos.',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'},()=>{
       cy.request({
         method: 'GET',
         url: '/pje-comum-api/api/dominio/assuntos/dadosbasicos',     
@@ -35,23 +40,25 @@ describe('Teste de requisição API', () => {
         expect(response.status).to.eq(200);
         expect(response.body[3]).to.have.property('id');
         expect(response.body[3]).to.have.property('descricao');
+        console.log('Endpoint : /pje-comum-api/api/dominio/assuntos/dadosbasicos')
         console.log(response.body)
         console.log('Id: ', response.body[3].id)
         console.log('Descriçao: ', response.body[3].descricao)
       })
     })
 
-    it('Recupera a descrição de todos os assuntos', ()=>{
+    it('Recupera a descrição de todos os assuntos',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
       cy.request({
         method: 'GET',
         url: 'pje-comum-api/api/dominio/assuntos/descricoes'
       }).then((response)=>{
         expect(response.status).to.eq(200)
-        console.log('Descrição: ', response.body[3])
+        console.log('Endpoint : pje-comum-api/api/dominio/assuntos/descricoes')
+        console.log('Descrição: ', response.body[4])
       })
     })
 
-    it('Buscar assuntos filtrando por lista de códigos', ()=>{       //códigos podem ser obtidos /pje-comum-api/api/dominio/assuntos
+    it('Buscar assuntos filtrando por lista de códigos',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{       //códigos podem ser obtidos /pje-comum-api/api/dominio/assuntos
       cy.getCookie('Xsrf-Token').should('exist').then((cookie) => {
         const token = cookie.value;
       cy.request({
@@ -64,16 +71,16 @@ describe('Teste de requisição API', () => {
         },
         failOnStatusCode: false,
         body: [
-          "13313" 
+          "10894" 
         ]
       }).then((response)=>{
         expect(response.status).to.eq(200)
-        console.log('Assunto por código:', response.body[0].descricao)
+        console.log('Assunto por código - Descrição :', response.body[0].descricao)
       })
     })
   })
 
-    it('Buscar todos os assuntos que ainda não estejam adicionados ao processo', ()=>{
+    it('Buscar todos os assuntos que ainda não estejam adicionados ao processo',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
       cy.request({
         method: 'GET',
         url: 'pje-comum-api/api/dominio/assuntos/todos'
@@ -84,7 +91,7 @@ describe('Teste de requisição API', () => {
       })
     })
 
-    it('Busca um Assunto por ID', ()=>{
+    it('Busca um Assunto por ID',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
       cy.request({
         method: 'GET',
         url: 'pje-comum-api/api/dominio/assuntos/4170'
@@ -94,7 +101,7 @@ describe('Teste de requisição API', () => {
       })
     })
     
-    it('Adiciona novo assunto ao processo', ()=>{
+    it('Adiciona novo assunto ao processo',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
       cy.getCookie('Xsrf-Token').should('exist').then((cookie) => {
         const token = cookie.value;
     cy.request({
@@ -123,7 +130,7 @@ describe('Teste de requisição API', () => {
   });
 });
 
-    it('Remove assunto do processo pelo seu id', ()=>{
+    it('Remove assunto do processo pelo seu id',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
       cy.getCookie('Xsrf-Token').should('exist').then((cookie) => {
         const token = cookie.value;
       cy.request({
@@ -142,7 +149,7 @@ describe('Teste de requisição API', () => {
     })
   })
 
-    it('Lista os complementos referentes a acordo parcial na assinatura de audiência', ()=>{
+    it('Lista os complementos referentes a acordo parcial na assinatura de audiência',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
       cy.request({
         method: 'GET',
         url: '/pje-comum-api/api/atasaudiencia/complementos-acordo-parcial'
@@ -152,7 +159,7 @@ describe('Teste de requisição API', () => {
       })
     })
 
-    it('Conta o número de atas não pendentes', ()=>{
+    it('Conta o número de atas não pendentes',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
       cy.request({
         method: 'GET',
         url: '/pje-comum-api/api/atasaudiencia/totais',
@@ -163,7 +170,7 @@ describe('Teste de requisição API', () => {
       })
     })
 
-    it('Consulta pessoas fisicas/advogados', ()=>{
+    it('Consulta pessoas fisicas/advogados',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
       cy.request({
         method: 'GET',
         url: 'pje-comum-api/api/pessoas/fisicas',

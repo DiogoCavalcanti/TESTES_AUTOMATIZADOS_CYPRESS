@@ -1,5 +1,5 @@
 
-describe('Teste de requisição API', () => {
+describe('Testes das APIs do pje-segurança', () => {
     beforeEach('Deve fazer uma requisição POST para logar via API', () => {
       cy.loginViaApi('loginMagistrado');    //Mudar o tipo de usuário de acordo com os armazenados na pasta fixtures
     });
@@ -8,10 +8,12 @@ describe('Teste de requisição API', () => {
     it('Busca todos os perfis do usuário logado', ()=>{
         cy.request({
           method: 'GET',
-          url: '/pje-seguranca/api/token/perfis',
+          url: '/token/perfis',
         }).then((response)=>{
           expect(response.status).to.eq(200);
-          console.log('Perfil:', response.body);
+          console.log('Endpoint : /pje-seguranca/api/token/perfis')
+          console.log('Busca perfil de usuários logados')
+          console.log('Perfil:', response.body[0].papel);
         })
     })
 
@@ -33,9 +35,11 @@ describe('Teste de requisição API', () => {
     it('Busca todas as permissões do usuário logado', ()=>{
         cy.request({
           method: 'GET',
-          url: '/pje-seguranca/api/token/permissoes',
+          url: '/token/permissoes',
         }).then((response)=>{
           expect(response.status).to.eq(200);
+          console.log('Endpoint : /pje-seguranca/api/token/permissoes')
+          console.log('Busca as permissões do usuário logado')
           console.log('Permissões:', response.body);
         })
     })
@@ -44,7 +48,7 @@ describe('Teste de requisição API', () => {
     it('Cria um PJeOfficeToken para o usuário, vinculado à sua sessão (JWT)', ()=>{
         cy.request({
           method: 'POST',
-          url: '/pje-seguranca/api/pjeoffice/token',
+          url: '/pjeoffice/token',
         }).then((response)=>{
           expect(response.status).to.eq(200);
           expect(response.body).to.be.a('string');
@@ -57,7 +61,7 @@ describe('Teste de requisição API', () => {
     it('Recupera dados do perfil do usuário logado',()=>{
         cy.request({
           method: 'GET',
-          url: '/pje-seguranca/api/usuarios',
+          url: '/usuarios',
         }).then((response)=>{
           assert.isObject(response.body); //assert ou expect?
           expect(response.status).to.eq(200);

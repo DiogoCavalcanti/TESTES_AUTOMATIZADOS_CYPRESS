@@ -1,4 +1,4 @@
-describe('Teste de requisição API', () => {
+describe('Testes das APIs de autuação', () => {
     beforeEach('Deve fazer uma requisição POST para logar via API', () => {
       cy.fixture('loginAdv').then((loginData) => {
       cy.request({
@@ -16,7 +16,7 @@ describe('Teste de requisição API', () => {
     });
   })
 
-    it('Autuação de processo dados iniciais/classe judicial', ()=>{
+    it('Autuação de processo dados iniciais/classe judicial',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
         cy.request({
           method: 'GET',
           url: '/pje-seguranca/api/token/permissoes/recursos',
@@ -26,7 +26,7 @@ describe('Teste de requisição API', () => {
         });
     });
 
-    it('Autuação de processo dados iniciais/jurisdição', ()=>{
+    it('Autuação de processo dados iniciais/jurisdição',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
         cy.request({
             method: 'GET',
             url: '/pje-comum-api/api/dominio/jurisdicoes',
@@ -37,7 +37,7 @@ describe('Teste de requisição API', () => {
         });
     });
 
-    it('Autuação de processo dados iniciais/classe judicial', ()=>{
+    it('Autuação de processo dados iniciais/classe judicial',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
         cy.request({
             method: 'GET',
             url: '/pje-comum-api/api/dominio/classesjudiciais/jurisdicao/2',
