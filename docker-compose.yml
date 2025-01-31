@@ -1,0 +1,13 @@
+version: "3.8"
+
+
+services:
+  cypress:
+    build: .
+    container_name: cypress_tests
+    environment:
+      CYPRESS_baseUrl: "https://desenvolvimento.pje.csjt.jus.br/pje-seguranca/api/"
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: ["cypress", "run"]

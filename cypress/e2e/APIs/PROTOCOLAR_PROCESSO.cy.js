@@ -1,48 +1,14 @@
 describe('Protocolar Processo via API', ()=>{
-    /*before('Logar via API', () => {
-        cy.loginViaApi('loginMagistrado');    
-    });*/
-    
+   
     //Autuação 
     it("autuacao- POST",{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, () =>{
         cy.loginViaApi('loginMagistrado')
         cy.getCookie('Xsrf-Token').should('exist').then((cookie) => {
         const token = cookie.value;
-        console.log('token_footer recuperado do cookie:', token);
-        const requestBody = {
-            "classeJudicial": {   
-                "id": 77,  
-                "codigo": "63",  
-                "descricao": "Ação Civil Coletiva",  
-                "sigla": "ACC",  
-                "requerProcessoReferenciaCodigo": "NE",  
-                "controlaValorCausa": true,  
-                "podeIncluirAutoridade": true,  
-                "pisoValorCausa": 0,  
-                "tetoValorCausa": 0,  
-                "ativo": true, 
-                "idClasseJudicialPai": 0,
-                "possuiFilhos": true, 
-                    "filhos": [
-                        null
-                    ]
-            },
-    
-            "jurisdicao": {
-                "id": 2,
-                "descricao": "GAMA-DF",
-                "ativo": true,
-                "codigoOrigem": 111,
-                "estado": "DISTRITO FEDERAL",
-                "idEstado": 7,
-                "instancia": 1,
-                "idRegional": 10,    
-                "descricaoRegional": "TRT da 10ª Região (CSJT)",   
-                "idRamoJustica": 5,
-                "descricaoRamoJustica": "Justiça do Trabalho"
-            },
-    
-        }
+        const requestBody = Cypress.env('requestBody');
+        const assuntoBody = Cypress.env('assuntoBody');
+        const poloAtivoBody = Cypress.env('poloAtivoBody');
+        const minutaBody = Cypress.env('minutaBody');
         
         //Dados Iniciais
         cy.request({
@@ -56,7 +22,6 @@ describe('Protocolar Processo via API', ()=>{
         failOnStatusCode: false
         }).as("autuacao").then((autuacao) => {
         expect(autuacao.status).to.eq(200);
-        console.log(requestBody)
         console.log('dados iniciais: ', autuacao.body);
         const processoId = autuacao.body.split('/')[1];
         cy.wrap(processoId).as('processoId');
@@ -68,23 +33,7 @@ describe('Protocolar Processo via API', ()=>{
         cy.request({
           method: 'POST',
           url: `/pje-comum-api/api/processos/id/${id}/assuntos/`,   //Adicionar dinamicamente idProcesso
-          body : {
-            "assunto": {
-              "id": 4508,
-              "idAssuntoSuperior": 4488,
-              "codigo": "13962",
-              "descricao": "Justa Causa/Falta Grave",
-              "assuntoCompleto": "DIREITO DO TRABALHO (864) / Direito Individual do Trabalho (12936) / Rescisão do Contrato de Trabalho (13949) / Justa Causa/Falta Grave",
-              "assuntoResumido": "Rescisão do Contrato de Trabalho / Justa Causa/Falta Grave",
-              "nivel": 3,
-              "podeAdicionarAoProcesso": true,
-              "possuiFilhos": false,
-              "filhos": [
-                null
-              ]
-            },
-            "principal": true
-          },
+          body : assuntoBody,
           headers: {
             
             'X-XSRF-TOKEN': token
@@ -92,24 +41,24 @@ describe('Protocolar Processo via API', ()=>{
         failOnStatusCode: false
         }).as("response").then((response)=>{
           expect(response.status).to.eq(200)
-          console.log(response.body);
+          console.log('Assunto: ', response.body);
         })
       
 
         //Adiciona Parte Polo Ativo
         cy.request({
           method: 'POST',
-          url: `/pje-comum-api/api/processos/id/${id}/partes/`,   //Adicionar Dinamicamente IdProcesso
+          url: `/pje-comum-api/api/processos/id/${id}/partes/`,
           body: {
             "enderecoDesconhecido":false,
             "idEndereco" : "370157",
             "idPessoa" : "164421",
-            "idProcesso" : `${id}`,              //Não pode ser adicionado duas vezes. Adicionar Dinamicamente-CriarTesteMsgErro 
+                          
             "idTipoParte": 5,
             "polo" : "A",
             "principal"	: true,
             "representados" : []
-        }, 
+        }, "idProcesso" : `${id}`,
           headers: {
             
             'X-XSRF-TOKEN': token
@@ -277,20 +226,7 @@ describe('Protocolar Processo via API', ()=>{
         cy.request({
           method: 'POST',
           url: `/pje-comum-api/api/processos/id/${id}/documentos/minuta/U/metadados`,
-          body: {
-            "anexos": [],
-            "estruturaDocumento": {
-              "id": 62,
-              "padraoFuncionalidade": true,
-              "titulo": "Anexar Documentos"
-            },
-            "idTipo": 12,
-            "numComentariosNaoLidos": 0,
-            "responder": true,
-            "tipo": "Petição Inicial",
-            "tipoArquivo": "HTML",
-            "titulo": "Petição Inicial"
-          },
+          body: minutaBody,
           headers: {
             
             'X-XSRF-TOKEN': token

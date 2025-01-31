@@ -101,12 +101,12 @@ describe('Testes das APIs de assuntos do pje comum', () => {
       })
     })
     
-    it('Adiciona novo assunto ao processo',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
+    it.only('Adiciona novo assunto ao processo',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
       cy.getCookie('Xsrf-Token').should('exist').then((cookie) => {
         const token = cookie.value;
     cy.request({
       method: 'POST', 
-      url: '/pje-comum-api/api/processos/id/259274/assuntos',
+      url: '/pje-comum-api/api/processos/id/366872/assuntos',
       headers: {
         'Content-Type': 'application/json',
         Accept: '*/*',
@@ -115,7 +115,7 @@ describe('Testes das APIs de assuntos do pje comum', () => {
       failOnStatusCode: false,
       body: {
         //id: 77,
-        idProcesso: 259274,
+        idProcesso: 366872,
         assunto: {
           id: 4170,
           idAssuntoSuperior: 4167,

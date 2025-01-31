@@ -39,15 +39,17 @@ Cypress.Commands.add('loginViaApi', (loginTipo)=>{
         }).then((response) => {
             expect(response.status).to.eq(200); 
             cy.log(JSON.stringify(response.body)); 
-            cy.getCookies().then((cookies) => {
-              cookies.forEach((cookie) => {
-                Cypress.env(cookie.name, cookie.value);
+                //cy.getCookie('Xsrf-Token').should('exist').then((cookie) => {
+                //const token = cookie.value;
+                //cy.getCookies().then((cookies) => {
+                //cookies.forEach((cookie) => {
+                //Cypress.env(cookie.name, cookie.value);
                 //console.log(cookie.name, cookie.value);
             });
         });
     });
-});
-});
+
+
 
 //
 //
