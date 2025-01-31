@@ -1,9 +1,9 @@
-describe('Testes de requisição as APIs de agrupamentos do pje comum', () => {
+describe('Testes das APIs de agrupamentos do pje comum', () => {
     beforeEach('Deve fazer uma requisição POST para logar via API', () => {
       cy.loginViaApi('loginMagistrado');    //Mudar o tipo de usuário de acordo com os armazenados na pasta fixtures
     });
 
-    it('Recupera informações do agrupador selecionado',()=>{
+    it('Recupera informações do agrupador selecionado', { baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'},()=>{
         cy.request({
             method: 'GET',
             url: '/pje-comum-api/api/agrupamentotarefas/'
@@ -15,7 +15,7 @@ describe('Testes de requisição as APIs de agrupamentos do pje comum', () => {
         })
     })
 
-    it('Recupera as Classes Judiciais do Painel de Processos de um Órgão Julgador',()=>{
+    it('Recupera as Classes Judiciais do Painel de Processos de um Órgão Julgador',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'},()=>{
         cy.request({
             method: 'GET',
             url: '/pje-comum-api/api/agrupamentotarefas/7/classesjudiciais', //estudar uma maneira de passar o idAgrupamento dinamicamente
@@ -26,7 +26,7 @@ describe('Testes de requisição as APIs de agrupamentos do pje comum', () => {
         })
     })
 
-    it('Recupera as Etiquetas do Painel de Processos de um Órgão Julgador',()=>{
+    it('Recupera as Etiquetas do Painel de Processos de um Órgão Julgador',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'},()=>{
         cy.request({
             method: 'GET',
             url: '/pje-comum-api/api/agrupamentotarefas/7/etiquetas',
@@ -37,7 +37,7 @@ describe('Testes de requisição as APIs de agrupamentos do pje comum', () => {
         })
     })
 
-    it('Recupera as fases dos processos do Painel de Processos de um órgão Julgador',()=>{
+    it('Recupera as fases dos processos do Painel de Processos de um órgão Julgador',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'},()=>{
         cy.request({
             method: 'GET',
             url: '/pje-comum-api/api/agrupamentotarefas/7/fasesprocessuais',
@@ -48,7 +48,7 @@ describe('Testes de requisição as APIs de agrupamentos do pje comum', () => {
         })
     })
 
-    it('Recupera os nomes dos magistrados com processo concluso para do Painel de Processos de um órgão Julgador',()=>{
+    it('Recupera os nomes dos magistrados com processo concluso para do Painel de Processos de um órgão Julgador',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'},()=>{
         cy.request({
             method: 'GET',
             url: '/pje-comum-api/api/agrupamentotarefas/7/nomesConclusoMagistrados',
@@ -59,7 +59,7 @@ describe('Testes de requisição as APIs de agrupamentos do pje comum', () => {
         })
     })
 
-    it('Recupera os Órgãos Julgadores de um determinado agrupamento',()=>{
+    it('Recupera os Órgãos Julgadores de um determinado agrupamento',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'},()=>{
         cy.request({
             method: 'GET',
             url: '/pje-comum-api/api/agrupamentotarefas/7/orgaojulgadores',
@@ -70,7 +70,7 @@ describe('Testes de requisição as APIs de agrupamentos do pje comum', () => {
         })
     })
 
-    it('Recupera a quantidade de processos nos agrupadores de tarefas',()=>{
+    it('Recupera a quantidade de processos nos agrupadores de tarefas',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'},()=>{
         cy.request({
             method: 'GET',
             url: '/pje-comum-api/api/agrupamentotarefas/9/pendencias',
@@ -81,7 +81,7 @@ describe('Testes de requisição as APIs de agrupamentos do pje comum', () => {
         })
     })
 
-    it('Recupera os relatores dos processos com pendência de um determinado agrupamento',()=>{
+    it('Recupera os relatores dos processos com pendência de um determinado agrupamento',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'},()=>{
         cy.request({
             method: 'GET',
             url: '/pje-comum-api/api/agrupamentotarefas/9/pendencias/relatores',
@@ -92,7 +92,7 @@ describe('Testes de requisição as APIs de agrupamentos do pje comum', () => {
         })
     })
 
-    it('Recupera as Tarefas do Painel de Processos de um órgão Julgador',()=>{
+    it('Recupera as Tarefas do Painel de Processos de um órgão Julgador',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'},()=>{
         cy.request({
             method: 'GET',
             url: '/pje-comum-api/api/agrupamentotarefas/9/pendencias/tarefas',

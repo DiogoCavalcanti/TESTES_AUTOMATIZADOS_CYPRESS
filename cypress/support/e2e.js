@@ -14,9 +14,10 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
+import 'cypress-mochawesome-reporter/register'
 import './commands'
 import '@cypress/puppeteer/support'
-import 'cypress-mochawesome-reporter/register'
+
 
 Cypress.on('uncaught:exception', (err) => {
     // Ignorar erros relacionados a TOKEN_CAPTCHA não definido

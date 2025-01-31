@@ -30,7 +30,7 @@ Cypress.Commands.add('loginViaApi', (loginTipo)=>{
     cy.fixture(fixturePath).then((loginData) => {
         cy.request({
           method: 'POST',
-          url: '/primeirograu/logar.seam',
+          url: 'https://desenvolvimento.pje.csjt.jus.br/primeirograu/logar.seam',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             Accept: '*/*'
