@@ -1,7 +1,7 @@
 
 describe('Testes das APIs do pje-segurança', () => {
     beforeEach('Deve fazer uma requisição POST para logar via API', () => {
-      cy.loginViaApi('loginMagistrado');    //Mudar o tipo de usuário de acordo com os armazenados na pasta fixtures
+      cy.loginViaApi('loginAdv');    //Mudar o tipo de usuário de acordo com os armazenados na pasta fixtures
     });
 
     //Swagger pje-seguranca-api /token/perfis 
