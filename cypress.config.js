@@ -78,17 +78,102 @@ module.exports = defineConfig({
         },
         principal: true
     },
-
+    
     poloAtivoBody: {
         "enderecoDesconhecido":false,
         "idEndereco" : "370157",
         "idPessoa" : "164421",
-        //"idProcesso" : `${id}`,                 
+        "idProcesso" : "{{id}}",                
         "idTipoParte": 5,
         "polo" : "A",
         "principal"	: true,
         "representados" : []
     },
+
+    poloPassivoBody: {
+      enderecoDesconhecido :false,
+      idEndereco : "370156",
+      idPessoa : "208843",
+      idProcesso : "{{id}}",              
+      idTipoParte : 6,
+      polo : "P",
+      principal	: true,
+      representados : []
+    },
+
+    alteraProcessoBody: {
+            
+      "classeJudicial": {
+        "ativo": true,
+        "codigo": "63",
+        "controlaValorCausa": false,
+        "descricao": "Ação Civil Coletiva",
+        "id": 77,
+        "idClasseJudicialPai": 76,
+        "podeIncluirAutoridade": false,
+        "possuiFilhos": false,
+        "requerProcessoReferenciaCodigo": "NE",
+        "sigla": "ACC"
+      },
+      "codigoClasseJudicialInicial": "I",
+      "codigoStatusProcesso": "E",
+      "id": "{{id}}",
+      "juizoDigital": false,
+      "jurisdicao": {
+        "ativo": true,
+        "codigoOrigem": 1,
+        "descricao": "Tribunal Regional do Trabalho da 10ª Região",
+        "descricaoRamoJustica": "Justiça do Trabalho",
+        "descricaoRegional": "TRT da 10ª Região (CSJT)",
+        "estado": "DISTRITO FEDERAL",
+        "id": 9,
+        "idEstado": 7,
+        "idRamoJustica": 5,
+        "idRegional": 10,
+        "inibeLixeiraGigs": false,
+        "instancia": 1
+      },
+      "processoJT": {
+        "atividade": {
+          "id": 201,
+          "nome": "COMÉRCIO VAREJISTA",
+          "pai": {
+            "id": 200,
+            "nome": "COMÉRCIO"
+          }
+        },
+        "idProcesso": "{{id}}",
+        "municipio": {
+          "ativo": true,
+          "estado": {
+            "descricao": "DISTRITO FEDERAL",
+            "id": 7,
+            "sigla": "DF"
+          },
+          "id": 753,
+          "idEstado": 7,
+          "nome": "BRASILIA",
+          "siglaEstado": "DF"
+        }
+      },
+      "valorDaCausa": 500
+    
+    },
+
+    prioridadeBody: {
+      
+      "idProcesso": "{{id}}",
+      "prioridadeProcessual": {
+        "ativo": true,
+        "codigo": "P06",
+        "descricao": "Acidente de Trabalho",
+        "id": 5,
+        "mni": false,
+        "peso": 4
+      }
+    },
+
+
 
     minutaBody: {
       "anexos": [],
@@ -103,7 +188,120 @@ module.exports = defineConfig({
         "tipo": "Petição Inicial",
         "tipoArquivo": "HTML",
         "titulo": "Petição Inicial"
-    }
+    },
+
+    gravacaoDocBody: {
+      
+      "id": "{{docId}}",
+      "minutaTipoFuncionalidade": "\u0000",
+        "topicos": [
+                    {
+            "conteudo": "",
+            "dataModificacao": "2025-01-30T19:04:43.901Z",
+            "exibirTitulo": false,
+            "idEstruturaDocumentoTopico": 139,
+            "numerado": false,
+            "somenteLeitura": false,
+            "titulo": "Conteúdo principal"
+          },
+                    {
+          "conteudo": "<p class=\"corpo\" style=\"font-size:12pt;line-height:1.5;margin-left:0 !important;text-align:justify !important;text-indent:4.5cm;\">BRASILIA/DF, 30 de janeiro de 2025.</p><p class=\"ck_assinatura\" style=\"font-size:12pt;line-height:1.5;text-align:center;text-indent:0;\"><strong>TAMARA GIL KEMP</strong><br>Magistrado</p>",
+          "dataModificacao": "2025-01-30T19:04:43.901Z",
+          "exibirTitulo": false,
+          "idEstruturaDocumentoTopico": 140,
+          "numerado": false,
+          "somenteLeitura": true,
+          "titulo": "Assinatura"
+          }
+          ],
+          "version": 2
+    },
+
+    assinaturaBody: {
+      
+      "algoritmoAssinatura": "RSA_SHA256",
+      "processos": [
+        {
+          "documentosPrincipais": [
+            {
+              "anexos": [],
+              "associados": [],
+              "idProcesso": "{{id}}",
+              "idProcessoDocumento": "{{docId}}"
+            }
+          ],
+          "idProcesso": "{{id}}",
+          "nomeRecurso": "page:novo-processo"
+        }
+      ],
+      "tipoAssinador": "MODO_TESTE",
+      "transitarNoFluxo": false
+    },
+
+    protocoloBody: {
+      
+      "competencia": {
+        "ativo": true,
+        "descricao": "Justiça do Trabalho - Geral",
+        "id": 2
+      },
+      "processo": {
+        "classeJudicial": {
+          "ativo": true,
+          "codigo": "63",
+          "controlaValorCausa": false,
+          "descricao": "Ação Civil Coletiva",
+          "id": 77,
+          "idClasseJudicialPai": 76,
+          "podeIncluirAutoridade": false,
+          "possuiFilhos": false,
+          "requerProcessoReferenciaCodigo": "NE",
+          "sigla": "ACC"
+        },
+        "codigoClasseJudicialInicial": "I",
+        "codigoStatusProcesso": "E",
+        "id": "{{id}}",
+        "juizoDigital": false,
+        "jurisdicao": {
+          "ativo": true,
+          "codigoOrigem": 111,
+          "descricao": "GAMA-DF",
+          "descricaoRamoJustica": "Justiça do Trabalho",
+          "descricaoRegional": "TRT da 10ª Região (CSJT)",
+          "estado": "DISTRITO FEDERAL",
+          "id": 2,
+          "idEstado": 7,
+          "idRamoJustica": 5,
+          "idRegional": 10,
+          "inibeLixeiraGigs": false,
+          "instancia": 1
+        },
+        "processoJT": {
+          "atividade": {
+            "id": 201,
+            "nome": "COMÉRCIO VAREJISTA",
+            "pai": {
+              "id": 200,
+              "nome": "COMÉRCIO"
+            }
+          },
+          "idProcesso": "{{id}}",
+          "municipio": {
+            "ativo": true,
+            "estado": {
+              "descricao": "DISTRITO FEDERAL",
+              "id": 7,
+              "sigla": "DF"
+            },
+            "id": 753,
+            "idEstado": 7,
+            "nome": "BRASILIA",
+            "siglaEstado": "DF"
+          }
+        },
+        "valorDaCausa": 500
+      }
+    },
     
 
 

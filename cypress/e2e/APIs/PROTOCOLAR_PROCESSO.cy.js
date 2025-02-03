@@ -1,16 +1,24 @@
 describe('Protocolar Processo via API', ()=>{
+
+  let poloAtivoBody = Cypress.env('poloAtivoBody');
+  let poloPassivoBody = Cypress.env('poloPassivoBody');
+  let alteraProcessoBody = Cypress.env('alteraProcessoBody');
+  let prioridadeBody = Cypress.env('prioridadeBody');
+  let requestBody = Cypress.env('requestBody');
+  let assuntoBody = Cypress.env('assuntoBody');
+  let minutaBody = Cypress.env('minutaBody');
+  let gravacaoDocBody = Cypress.env('gravacaoDocBody');
+  let assinaturaBody = Cypress.env('assinaturaBody');
+  let protocoloBody = Cypress.env('protocoloBody');
    
-    //Autuação 
+    //Login & Token
     it("autuacao- POST",{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, () =>{
         cy.loginViaApi('loginMagistrado')
         cy.getCookie('Xsrf-Token').should('exist').then((cookie) => {
         const token = cookie.value;
-        const requestBody = Cypress.env('requestBody');
-        const assuntoBody = Cypress.env('assuntoBody');
-        const poloAtivoBody = Cypress.env('poloAtivoBody');
-        const minutaBody = Cypress.env('minutaBody');
         
-        //Dados Iniciais
+        
+        //Dados Iniciais Autuação -> Inclui novo processo a partir dos dados iniciais (jurisdição e classe judicial
         cy.request({
         method: 'POST',
         url: '/pje-comum-api/api/processos/dadosiniciaisautuacao/',
@@ -22,17 +30,17 @@ describe('Protocolar Processo via API', ()=>{
         failOnStatusCode: false
         }).as("autuacao").then((autuacao) => {
         expect(autuacao.status).to.eq(200);
-        console.log('dados iniciais: ', autuacao.body);
+        console.log('Dados iniciais: ', autuacao.body);
         const processoId = autuacao.body.split('/')[1];
         cy.wrap(processoId).as('processoId');
-        console.log(processoId)
+        console.log('Id do processo: ', processoId)
         })
 
         //Assuntos
         cy.get('@processoId').then((id) =>{
         cy.request({
           method: 'POST',
-          url: `/pje-comum-api/api/processos/id/${id}/assuntos/`,   //Adicionar dinamicamente idProcesso
+          url: `/pje-comum-api/api/processos/id/${id}/assuntos/`, 
           body : assuntoBody,
           headers: {
             
@@ -46,132 +54,46 @@ describe('Protocolar Processo via API', ()=>{
       
 
         //Adiciona Parte Polo Ativo
+        poloAtivoBody = JSON.stringify(poloAtivoBody).replace('"{{id}}"', id);
+        poloAtivoBody = JSON.parse(poloAtivoBody);
         cy.request({
           method: 'POST',
           url: `/pje-comum-api/api/processos/id/${id}/partes/`,
-          body: {
-            "enderecoDesconhecido":false,
-            "idEndereco" : "370157",
-            "idPessoa" : "164421",
-                          
-            "idTipoParte": 5,
-            "polo" : "A",
-            "principal"	: true,
-            "representados" : []
-        }, "idProcesso" : `${id}`,
+          body: poloAtivoBody,
           headers: {
-            
             'X-XSRF-TOKEN': token
           },
         failOnStatusCode: false
         }).as("response").then((response)=>{
           expect(response.status).to.eq(200)
-          console.log(response.body);
-        })
-      
-
-        cy.request({
-          method: 'POST',
-          url: '/pje-comum-api/api/pessoas/fisicas/pessoasfisicas',
-          body: "164421",
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'X-XSRF-TOKEN': token
-          },
-        failOnStatusCode: false
-        }).as("response").then((response)=>{
-          expect(response.status).to.eq(200)
-          console.log(response.body);
+          console.log('Polo ativo: ', response.body);
         })
 
         //Adiciona Parte Polo Passivo
+        poloPassivoBody = JSON.stringify(poloPassivoBody).replace('"{{id}}"', id);
+        poloPassivoBody = JSON.parse(poloPassivoBody);
         cy.request({
           method: 'POST',
-          url: `/pje-comum-api/api/processos/id/${id}/partes/`,   //Adicionar Dinamicamente IdProcesso
-          body: {
-            "enderecoDesconhecido":false,
-            "idEndereco" : "370156",
-            "idPessoa" : "208843",
-            "idProcesso" : `${id}`,              //Não pode ser adicionado duas vezes. Adicionar Dinamicamente-CriarTesteMsgErro 
-            "idTipoParte": 6,
-            "polo" : "P",
-            "principal"	: true,
-            "representados" : []
-        }, 
-          headers: {
-            
+          url: `/pje-comum-api/api/processos/id/${id}/partes/`,   
+          body: poloPassivoBody, 
+          headers: {  
             'X-XSRF-TOKEN': token
           },
         failOnStatusCode: false
         }).as("response").then((response)=>{
           expect(response.status).to.eq(200)
-          console.log(response.body);
+          console.log('Polo passivo: ', response.body);
+          
         })
-
+        
+        //Altera o processo passando o id do processo a ser alterado
+        alteraProcessoBody = JSON.stringify(alteraProcessoBody).replace(/"{{id}}"/g, id);
+        alteraProcessoBody = JSON.parse(alteraProcessoBody);
         cy.request({
           method: 'PUT',
-          url: `/pje-comum-api/api/processos/${id}`,    //Dinamicamente
-          body : {
-            
-              "classeJudicial": {
-                "ativo": true,
-                "codigo": "63",
-                "controlaValorCausa": false,
-                "descricao": "Ação Civil Coletiva",
-                "id": 77,
-                "idClasseJudicialPai": 76,
-                "podeIncluirAutoridade": false,
-                "possuiFilhos": false,
-                "requerProcessoReferenciaCodigo": "NE",
-                "sigla": "ACC"
-              },
-              "codigoClasseJudicialInicial": "I",
-              "codigoStatusProcesso": "E",
-              "id": `${id}`,
-              "juizoDigital": false,
-              "jurisdicao": {
-                "ativo": true,
-                "codigoOrigem": 1,
-                "descricao": "Tribunal Regional do Trabalho da 10ª Região",
-                "descricaoRamoJustica": "Justiça do Trabalho",
-                "descricaoRegional": "TRT da 10ª Região (CSJT)",
-                "estado": "DISTRITO FEDERAL",
-                "id": 9,
-                "idEstado": 7,
-                "idRamoJustica": 5,
-                "idRegional": 10,
-                "inibeLixeiraGigs": false,
-                "instancia": 1
-              },
-              "processoJT": {
-                "atividade": {
-                  "id": 201,
-                  "nome": "COMÉRCIO VAREJISTA",
-                  "pai": {
-                    "id": 200,
-                    "nome": "COMÉRCIO"
-                  }
-                },
-                "idProcesso": `${id}`,
-                "municipio": {
-                  "ativo": true,
-                  "estado": {
-                    "descricao": "DISTRITO FEDERAL",
-                    "id": 7,
-                    "sigla": "DF"
-                  },
-                  "id": 753,
-                  "idEstado": 7,
-                  "nome": "BRASILIA",
-                  "siglaEstado": "DF"
-                }
-              },
-              "valorDaCausa": 500
-            
-        },
-        headers: {
-            
+          url: `/pje-comum-api/api/processos/${id}`,    
+          body : alteraProcessoBody, 
+        headers: { 
           'X-XSRF-TOKEN': token
         },
         failOnStatusCode: false
@@ -180,22 +102,14 @@ describe('Protocolar Processo via API', ()=>{
           console.log(response.body);
         })
 
+        //Adiciona Prioridade
+        prioridadeBody = JSON.stringify(prioridadeBody).replace('"{{id}}"', id);
+        prioridadeBody = JSON.parse(prioridadeBody);
         cy.request({
           method: 'POST',
           url: `/pje-comum-api/api/processos/id/${id}/prioridades/`,
-          body: {
-              "idProcesso": `${id}`,
-              "prioridadeProcessual": {
-                "ativo": true,
-                "codigo": "P06",
-                "descricao": "Acidente de Trabalho",
-                "id": 5,
-                "mni": false,
-                "peso": 4
-              }
-          },
-          headers: {
-            
+          body: prioridadeBody, 
+          headers: { 
             'X-XSRF-TOKEN': token
           },
           failOnStatusCode: false
@@ -204,7 +118,7 @@ describe('Protocolar Processo via API', ()=>{
           console.log('Prioridades: ', response.body);
         })
 
-        cy.request({
+        /*cy.request({
           method: 'POST',
           url: '/pje-comum-api/api/ocorrenciasimpedimentomagistrado/',
           body:{
@@ -221,14 +135,15 @@ describe('Protocolar Processo via API', ()=>{
         }).as("response").then((response)=>{
           expect(response.status).to.eq(204)
           //console.log(response.body);
-        }) 
+        })*/
 
+        
+        //Grava o conteúdo de um documento em elaboração em um processo
         cy.request({
           method: 'POST',
           url: `/pje-comum-api/api/processos/id/${id}/documentos/minuta/U/metadados`,
           body: minutaBody,
           headers: {
-            
             'X-XSRF-TOKEN': token
           },
         }).as("response").then((response)=>{
@@ -239,73 +154,36 @@ describe('Protocolar Processo via API', ()=>{
           cy.wrap(documentoId).as('documentoId')
         })
 
+        //Grava o conteúdo de um documento HTML em elaboração na localização atual do usuário
         cy.get('@documentoId').then((docId) =>{
+          gravacaoDocBody = JSON.stringify(gravacaoDocBody).replace('"{{docId}}"', docId);
+          gravacaoDocBody = JSON.parse(gravacaoDocBody);
         cy.request({
           method: 'PUT',
           url: `/pje-comum-api/api/processos/id/${id}/documentos/minuta/${docId}`,
-          body: {
-	          "id": `${docId}`,
-	          "minutaTipoFuncionalidade": "\u0000",
-	            "topicos": [
-		                      {
-			            "conteudo": "",
-			            "dataModificacao": "2025-01-30T19:04:43.901Z",
-			            "exibirTitulo": false,
-			            "idEstruturaDocumentoTopico": 139,
-			            "numerado": false,
-			            "somenteLeitura": false,
-			            "titulo": "Conteúdo principal"
-		            },
-		  {
-			"conteudo": "<p class=\"corpo\" style=\"font-size:12pt;line-height:1.5;margin-left:0 !important;text-align:justify !important;text-indent:4.5cm;\">BRASILIA/DF, 30 de janeiro de 2025.</p><p class=\"ck_assinatura\" style=\"font-size:12pt;line-height:1.5;text-align:center;text-indent:0;\"><strong>TAMARA GIL KEMP</strong><br>Magistrado</p>",
-			"dataModificacao": "2025-01-30T19:04:43.901Z",
-			"exibirTitulo": false,
-			"idEstruturaDocumentoTopico": 140,
-			"numerado": false,
-			"somenteLeitura": true,
-			"titulo": "Assinatura"
-		}
-	],
-	"version": 2
-},
-          headers: {
-            
+          body: gravacaoDocBody,
+          headers: {        
             'X-XSRF-TOKEN': token
           },
         }).as("response").then((response)=>{
           console.log(response.body)
         })
 
-        //Assinatura
+        //Realiza a assinatura utilizando um assinador com certificado do Tribunal (OTP/JTe).
+        assinaturaBody = JSON.stringify(assinaturaBody).replace(/"{{id}}"/g, id).replace('"{{docId}}"', docId);
+        assinaturaBody = JSON.parse(assinaturaBody);
         cy.request({
           method: 'POST',
           url: '/pje-comum-api/api/assinaturas2/certificadotribunal',
-          body: {
-            "algoritmoAssinatura": "RSA_SHA256",
-            "processos": [
-              {
-                "documentosPrincipais": [
-                  {
-                    "anexos": [],
-                    "associados": [],
-                    "idProcesso": `${id}`,
-                    "idProcessoDocumento": `${docId}`
-                  }
-                ],
-                "idProcesso": `${id}`,
-                "nomeRecurso": "page:novo-processo"
-              }
-            ],
-            "tipoAssinador": "MODO_TESTE",
-            "transitarNoFluxo": false
-          },
+          body: assinaturaBody, 
           headers: {
-            
             'X-XSRF-TOKEN': token
           },
         }).as("response").then((response)=>{
+          expect(response.status).to.eq(200)
           console.log(response.body)
         })
+
 
         cy.request({
           method: 'GET',
@@ -314,75 +192,14 @@ describe('Protocolar Processo via API', ()=>{
           console.log('Assinatura: ', response.body)
         })
 
-        //Protocolo
+        //Protocolo -> Salva as alterações e protocola o processo informado
+        protocoloBody = JSON.stringify(protocoloBody).replace(/"{{id}}"/g, id);
+        protocoloBody = JSON.parse(protocoloBody);
         cy.request({
           method: 'PUT',
           url: `/pje-comum-api/api/processos/${id}/protocolo`,
-          body: {
-            "competencia": {
-              "ativo": true,
-              "descricao": "Justiça do Trabalho - Geral",
-              "id": 2
-            },
-            "processo": {
-              "classeJudicial": {
-                "ativo": true,
-                "codigo": "63",
-                "controlaValorCausa": false,
-                "descricao": "Ação Civil Coletiva",
-                "id": 77,
-                "idClasseJudicialPai": 76,
-                "podeIncluirAutoridade": false,
-                "possuiFilhos": false,
-                "requerProcessoReferenciaCodigo": "NE",
-                "sigla": "ACC"
-              },
-              "codigoClasseJudicialInicial": "I",
-              "codigoStatusProcesso": "E",
-              "id": `${id}`,
-              "juizoDigital": false,
-              "jurisdicao": {
-                "ativo": true,
-                "codigoOrigem": 111,
-                "descricao": "GAMA-DF",
-                "descricaoRamoJustica": "Justiça do Trabalho",
-                "descricaoRegional": "TRT da 10ª Região (CSJT)",
-                "estado": "DISTRITO FEDERAL",
-                "id": 2,
-                "idEstado": 7,
-                "idRamoJustica": 5,
-                "idRegional": 10,
-                "inibeLixeiraGigs": false,
-                "instancia": 1
-              },
-              "processoJT": {
-                "atividade": {
-                  "id": 201,
-                  "nome": "COMÉRCIO VAREJISTA",
-                  "pai": {
-                    "id": 200,
-                    "nome": "COMÉRCIO"
-                  }
-                },
-                "idProcesso": `${id}`,
-                "municipio": {
-                  "ativo": true,
-                  "estado": {
-                    "descricao": "DISTRITO FEDERAL",
-                    "id": 7,
-                    "sigla": "DF"
-                  },
-                  "id": 753,
-                  "idEstado": 7,
-                  "nome": "BRASILIA",
-                  "siglaEstado": "DF"
-                }
-              },
-              "valorDaCausa": 500
-            }
-          },
+          body: protocoloBody,
           headers: {
-            
             'X-XSRF-TOKEN': token
           },
         }).as("response").then((response)=>{
@@ -391,7 +208,7 @@ describe('Protocolar Processo via API', ()=>{
 
         cy.request({
           method: 'GET',
-          url: `/pje-comum-api/api/processos/id/${id}`   // audiencias`    /processos/id/{idProcesso}/documentos/minutas
+          url: `/pje-comum-api/api/processos/id/${id}` 
         }).as("response").then((response)=>{
           console.log(response.body)
           const protocoloBody = response.body
