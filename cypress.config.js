@@ -303,6 +303,19 @@ module.exports = defineConfig({
       }
     },
     
+    audienciaBody: {
+      
+      "buscarProximoHorarioVago": false,
+      "considerarIntersticio": true,
+      "data": "{{data}}",          //"2025-02-05T03:00:00.000Z",
+      "horarioFinal": "{{hora}}",        //"09:04",
+      "horarioInicial": "{{hora}}",          //"09:03",
+      "idProcesso": "{{id}}",
+      "idSalaFisica": 253,
+      "idTipoAudiencia": 3,
+      "validarHorario": true
+    }
+    
 
 
   }
