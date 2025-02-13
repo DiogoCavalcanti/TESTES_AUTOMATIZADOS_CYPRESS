@@ -14,22 +14,9 @@ describe('Testes das APIs do pje-segurança', () => {
           console.log('Endpoint : /pje-seguranca/api/token/perfis')
           console.log('Busca perfil de usuários logados')
           console.log('Perfil:', response.body[0].papel);
+          console.log(response.body)
         })
     })
-
-    //Swagger pje-seguranca-api /token/perfis/trocar
-    /*it('Troca perfil do usuário logado usando seu refresh_token', ()=>{
-        cy.request({
-          method: 'POST',
-          url: '/pje-seguranca/api/token/perfis/trocar',
-          body: {
-            "id_perfil": 32069
-          }
-      }).then((response)=>{
-          expect(response.status).to.eq(201);
-          console.log(response.body);
-    })
-  })*/
     
     //Swagger pje-seguranca-api /token/permissoes
     it('Busca todas as permissões do usuário logado', ()=>{
@@ -68,6 +55,7 @@ describe('Testes das APIs do pje-segurança', () => {
           console.log('Dados recuperados: ', response.body);
         })
     })
+
 })
 
   

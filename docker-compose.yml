@@ -4,7 +4,7 @@ version: "3.8"
 services:
   cypress:
     build: .
-    container_name: cypress_tests
+    container_name: cypress-test-browser
     environment:
       CYPRESS_baseUrl: "https://desenvolvimento.pje.csjt.jus.br/pje-seguranca/api/"
     volumes:

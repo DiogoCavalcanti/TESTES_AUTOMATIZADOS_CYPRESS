@@ -21,6 +21,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
       require("cypress-mochawesome-reporter/plugin")(on);
+    
     },
     baseUrl: "https://desenvolvimento.pje.csjt.jus.br/pje-seguranca/api/",
   },
@@ -126,7 +127,7 @@ module.exports = defineConfig({
         "descricaoRamoJustica": "Justiça do Trabalho",
         "descricaoRegional": "TRT da 10ª Região (CSJT)",
         "estado": "DISTRITO FEDERAL",
-        "id": 9,
+        "id": 10,
         "idEstado": 7,
         "idRamoJustica": 5,
         "idRegional": 10,
