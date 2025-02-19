@@ -173,7 +173,7 @@ module.exports = defineConfig({
         "peso": 4
       }
     },
-
+    
 
 
     minutaBody: {

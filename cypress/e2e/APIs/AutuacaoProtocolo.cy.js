@@ -47,12 +47,14 @@ let token;
             }).as("response").then((response) => {
             expect(response.status).to.eq(200);
             processoId = response.body.split('/')[1];
-            
+
+       
             cy.wrap(processoId).as('processoId');
             console.log('***Cria novo processo a partir dos dados iniciais e recupera o Id')
             console.log('Id do processo : ', processoId)
             
           })
+          
         
         
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,6 +75,27 @@ let token;
             console.log('***Adiciona assunto ao processo')
             console.log('Assunto: ', response.body.assunto.descricao);
             })
+
+        
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+          
+          //Adiciona Prioridade
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        prioridadeBody = JSON.stringify(prioridadeBody).replace('"{{id}}"', id);
+        prioridadeBody = JSON.parse(prioridadeBody);
+        
+        cy.request({
+          method: 'POST',
+          url: `/pje-comum-api/api/processos/id/${id}/prioridades/`,
+          body: prioridadeBody, 
+          headers: {'X-XSRF-TOKEN': token           },
+          failOnStatusCode: false
+          }).as("response").then((response)=>{
+          expect(response.status).to.eq(200)
+          console.log('***Adiciona prioridade ao processo')
+          console.log('Prioridades: ', response.body.prioridadeProcessual.descricao);
+          })
         
         
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -145,26 +168,6 @@ let token;
             expect(response.status).to.eq(200)
           })
         
-        
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
-          
-          //Adiciona Prioridade
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-          prioridadeBody = JSON.stringify(prioridadeBody).replace('"{{id}}"', id);
-          prioridadeBody = JSON.parse(prioridadeBody);
-          
-          cy.request({
-            method: 'POST',
-            url: `/pje-comum-api/api/processos/id/${id}/prioridades/`,
-            body: prioridadeBody, 
-            headers: {'X-XSRF-TOKEN': token           },
-            failOnStatusCode: false
-            }).as("response").then((response)=>{
-            expect(response.status).to.eq(200)
-            console.log('***Adiciona prioridade ao processo')
-            console.log('Prioridades: ', response.body.prioridadeProcessual.descricao);
-            })
         })
     })
 })
@@ -200,6 +203,7 @@ let token;
             
             documentoId = response.body.id;
             cy.wrap(documentoId).as('documentoId');
+            
             })
   
         
@@ -467,12 +471,12 @@ let token;
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
           cy.request({
             method: 'POST',
-            url: 'pje-comum-api/api/processos/id/367589/tarefas/63/transicoes',
+            url: `pje-comum-api/api/processos/id/${id}/tarefas/63/transicoes`,
             body: {
               
                 "idProcesso": `${id}`,
                 "idTarefaOrigem": 63,
-                "nomeTransicaoDestino": "Conclusão ao magistrado",
+                "nomeTransicaoDestino": "Aguardando audiência",
                 "transicaoDisponivel": true
               
             },

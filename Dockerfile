@@ -6,6 +6,6 @@ COPY . .
 
 RUN npm install
 
-CMD ["npm", "run", "npx cypressrun" ]
+CMD ["npm", "run", "npx cypress run" ]
 
 

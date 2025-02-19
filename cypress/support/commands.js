@@ -26,6 +26,7 @@ Cypress.Commands.add('loginAdv', ()=>{
 })
 
 Cypress.Commands.add('loginViaApi', (loginTipo)=>{
+    //cy.session('magistrado', ()=>{
     let fixturePath = loginTipo || 'loginComum';
     cy.fixture(fixturePath).then((loginData) => {
         cy.request({
@@ -39,15 +40,10 @@ Cypress.Commands.add('loginViaApi', (loginTipo)=>{
         }).then((response) => {
             expect(response.status).to.eq(200); 
             cy.log(JSON.stringify(response.body)); 
-                //cy.getCookie('Xsrf-Token').should('exist').then((cookie) => {
-                //const token = cookie.value;
-                //cy.getCookies().then((cookies) => {
-                //cookies.forEach((cookie) => {
-                //Cypress.env(cookie.name, cookie.value);
-                //console.log(cookie.name, cookie.value);
-            });
+        });  
         });
     });
+//});
 
 
  

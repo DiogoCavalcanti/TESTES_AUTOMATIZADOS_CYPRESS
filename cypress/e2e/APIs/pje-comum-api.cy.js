@@ -101,7 +101,7 @@ describe('Testes das APIs de assuntos do pje comum', () => {
       })
     })
     
-    it.only('Adiciona novo assunto ao processo',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
+    it('Adiciona novo assunto ao processo',{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, ()=>{
       cy.getCookie('Xsrf-Token').should('exist').then((cookie) => {
         const token = cookie.value;
     cy.request({
