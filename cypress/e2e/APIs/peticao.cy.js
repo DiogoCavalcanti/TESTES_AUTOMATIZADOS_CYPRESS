@@ -1,4 +1,4 @@
-describe('', ()=>{
+describe('Peticiona um documento passando o Id do processo', ()=>{
 
 let poloAtivoBody = Cypress.env('poloAtivoBody');
 let poloPassivoBody = Cypress.env('poloPassivoBody');
@@ -30,15 +30,18 @@ let token;
                 headers: {'X-XSRF-TOKEN': token},
                 failOnStatusCode: false
                 }).as("response").then((response)=>{
-                //expect(response.status).to.eq(200)
-                console.log(response.body)
-                console.log('***Grava o conteúdo de um documento em elaboração em um processo e recupera o Id do documento')
-                console.log('Petição inicial: ',response.body);
+                    cy.log(response.body.mensagem)
+                    //expect(response.status).to.eq(200)
+                    console.log('***Grava o conteúdo de um documento em elaboração em um processo e recupera o Id do documento')
+                    console.log('Petição inicial: ',response.body);
+                
                 
                 documentoId = response.body.id;
                 cy.wrap(documentoId).as('documentoId');
                 
                 })
+
+            
 
 })
 })

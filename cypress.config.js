@@ -315,7 +315,268 @@ module.exports = defineConfig({
       "idSalaFisica": 253,
       "idTipoAudiencia": 3,
       "validarHorario": true
+    },
+
+    transicoesAnaliseBody: {
+      
+      "corTarefaDestino": "#000000",
+      "iconeTarefaDestino": "fas fa-grip-horizontal",
+      "idProcesso": "{{id}}",
+      "idTarefaOrigem": 63,
+      "nomeTransicaoDestino": "Análise",
+      "transicaoDisponivel": true
+    
+    },
+
+    transicoesRemeterBody: {
+      
+      "corTarefaDestino": "#388E3C",
+      "iconeTarefaDestino": "fas fa-cloud-upload-alt",
+      "idProcesso": "{{id}}",
+      "idTarefaOrigem": 490,
+      "nomeTransicaoDestino": "Remeter ao 2o Grau",
+      "transicaoDisponivel": true
+    
+    },
+
+    remessasBody: {
+      
+        "assuntos": [
+{
+"codigo": "13969",
+"descricao": "Rescisão do Contrato de Trabalho / Seguro Desemprego",
+"principal": true
+}
+],
+"codigoClasseJudicial": "1004",
+"codigoRegionalDestino": 10,
+"codigoRegionalOrigem": 10,
+"cumprimentoDiligencia": false,
+"descricaoClasseJudicial": "Agravo de Petição",
+"descricaoCompetencia": "Turmas TRT",
+"descricaoJurisdicao": "Tribunal Regional do Trabalho da 10ª Região",
+"faseProcessual": "CONHECIMENTO",
+"idCompetencia": 21,
+"idJurisdicao": 40,
+"idProcesso": "{{id}}",
+"instanciaDestino": 2,
+"instanciaOrigem": 1,
+"motivo": {
+"codigo": "38",
+"id": 469,
+"valor": "para processar recurso"
+},
+"partes": [
+{
+"parte": {
+"autoridade": false,
+"cpf": "885.597.001-10",
+"documento": "885.597.001-10",
+"email": "karolinbaumgartner@superrito.com",
+"emails": [
+  "karolinbaumgartner@superrito.com"
+],
+"endereco": {
+  "bairro": "CENTRO",
+  "classificacoesEndereco": [
+    "R"
+  ],
+  "correspondencia": true,
+  "dtAlteracao": "2024-05-14T17:33:15.412Z",
+  "estado": {
+    "descricao": "TOCANTINS",
+    "id": 24,
+    "sigla": "TO"
+  },
+  "id": 370157,
+  "idMunicipio": 18385,
+  "idPessoa": 164421,
+  "idUsuarioCadastrador": 208320,
+  "logradouro": "RUA",
+  "municipio": "MIRACEMA DO TOCANTINS",
+  "municipioIbge": "1713205",
+  "nroCep": "77650-000",
+  "numero": "123",
+  "pais": {
+    "codigo": "076",
+    "descricao": "Brasil",
+    "id": 271
+  },
+  "situacao": "P"
+},
+"enderecoDesconhecido": false,
+"id": 1293861,
+"idPessoa": 164421,
+"idTipoParte": 5,
+"nome": "FLORISMARDEM LUSTOSA DA SILVA",
+"ordem": 1,
+"pessoaFisica": {
+  "codigoSexo": "M",
+  "dataNascimento": "1976-07-08T03:00:00.000Z",
+  "email": "karolinbaumgartner@superrito.com",
+  "estadoCivil": 2,
+  "etnia": 3,
+  "id": 164421,
+  "login": "88559700110",
+  "naturalidade": {
+    "ativo": true,
+    "estado": {
+      "descricao": "GOIÁS",
+      "id": 10,
+      "sigla": "GO"
+    },
+    "id": 59,
+    "idEstado": 10,
+    "nome": "AGUA FRIA DE GOIAS",
+    "siglaEstado": "GO"
+  },
+  "nome": "FLORISMARDEM LUSTOSA DA SILVA",
+  "paisNascimento": {
+    "codigo": "076",
+    "descricao": "Brasil",
+    "id": 271
+  },
+  "podeUsarCelularParaMensagem": false,
+  "profissao": {
+    "ativo": true,
+    "codigo": "521110",
+    "descricao": "VENDEDOR DE COMÉRCIO VAREJISTA",
+    "id": 1395
+  },
+  "sexo": "Masculino",
+  "situacao": true,
+  "ufNascimento": {
+    "descricao": "GOIÁS",
+    "id": 10,
+    "sigla": "GO"
+  }
+},
+"polo": "ativo",
+"principal": true,
+"representantes": [
+  {
+    "autoridade": false,
+    "cpf": "030.733.501-10",
+    "dddCelular": "61",
+    "documento": "030.733.501-10",
+    "email": "testesautomatizados@tst.jus.br",
+    "emails": [
+      "testesautomatizados@tst.jus.br"
+    ],
+    "enderecoDesconhecido": false,
+    "id": 1293862,
+    "idPessoa": 130780,
+    "idTipoParte": 7,
+    "nome": "DAIANE FERREIRA DE OLIVEIRA",
+    "numeroCelular": "99999999",
+    "numeroOab": "DF47939",
+    "polo": "ativo",
+    "principal": false,
+    "sexo": "FEMININO",
+    "situacao": "Ativo",
+    "situacaoOab": "REGULAR",
+    "status": "A",
+    "tipo": "ADVOGADO",
+    "tipoDocumento": "CPF",
+    "tipoPessoa": "F"
+  }
+],
+"sexo": "MASCULINO",
+"situacao": "Ativo",
+"status": "A",
+"tipo": "AUTOR",
+"tipoDocumento": "CPF",
+"tipoPessoa": "F"
+},
+"polo": "A",
+"recursos": []
+},
+{
+"parte": {
+"autoridade": false,
+"documento": "84.429.695/0001-11",
+"email": "contabil1@weg.net",
+"emails": [
+  "contabil1@weg.net"
+],
+"endereco": {
+  "bairro": "VILA LALAU",
+  "classificacoesEndereco": [
+    "R"
+  ],
+  "correspondencia": true,
+  "dtAlteracao": "2024-05-14T15:23:40.314Z",
+  "estado": {
+    "descricao": "SANTA CATARINA",
+    "id": 25,
+    "sigla": "SC"
+  },
+  "id": 370156,
+  "idMunicipio": 2543,
+  "idPessoa": 208843,
+  "idUsuarioCadastrador": 43832,
+  "logradouro": "PREFEITO WALDEMAR GRUBBA",
+  "municipio": "JARAGUA DO SUL",
+  "municipioIbge": "4208906",
+  "nroCep": "89256-900",
+  "numero": "3300",
+  "pais": {
+    "codigo": "076",
+    "descricao": "Brasil",
+    "id": 271
+  },
+  "situacao": "V"
+},
+"enderecoDesconhecido": false,
+"id": 1293863,
+"idPessoa": 208843,
+"idTipoParte": 6,
+"nome": "WEG SA",
+"ordem": 1,
+"pessoaJuridica": {
+  "cnpj": "84.429.695/0001-11",
+  "dataAbertura": "1969-05-29T03:00:00.000Z",
+  "dsRamoAtividade": "HOLDINGS DE INSTITUIÇÕES NÃO-FINANCEIRAS",
+  "dsTipoPessoa": "Sociedade Anônima Aberta",
+  "dsTpPrazoExpedienteAutomatico": "Simples",
+  "email": "contabil1@weg.net",
+  "id": 208843,
+  "login": "84429695000111",
+  "nome": "WEG SA",
+  "nomeFantasia": "WEG",
+  "numeroCpfResponsavel": "12356910808",
+  "oficial": false,
+  "orgaoPublico": false,
+  "porteCodigo": 5,
+  "porteLabel": "Demais",
+  "situacao": true,
+  "situacaoCnpjReceitaFederal": {
+    "descricao": "ATIVA",
+    "id": 2
+  },
+  "tipoPessoaCodigo": "J",
+  "tipoPessoaLabel": "Jurídica",
+  "tipoPessoaTipoValidacaoReceita": "T"
+},
+"polo": "passivo",
+"principal": true,
+"situacao": "Ativo",
+"status": "A",
+"tipo": "RÉU",
+"tipoDocumento": "CNPJ",
+"tipoPessoa": "J"
+},
+"polo": "P",
+"recursos": []
+}
+],
+"pedidoLiminar": false,
+"siglaClasseJudicial": "AP",
+"situacao": "S"
+    
     }
+
+
     
 
 

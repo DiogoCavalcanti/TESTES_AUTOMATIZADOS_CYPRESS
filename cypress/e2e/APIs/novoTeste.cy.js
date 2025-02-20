@@ -16,9 +16,16 @@ let documentoId;
 let tarefaId;
 let token;
 
+beforeEach('Limpeza', ()=>{
+    cy.clearCookies()
+    cy.clearLocalStorage()
+    cy.reload()
+})
+
     it("Autuação",{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, () =>{
         console.log('<--Logado Perfil Advogado-->')
-        cy.loginViaApi('loginAdv')
+        cy.loginApiSessions('loginAdv')
+
         cy.getCookie('Xsrf-Token').should('exist').then((cookie) => {
         token = cookie.value;
         
@@ -122,11 +129,13 @@ let token;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     it("Petição Inicial",{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, () =>{
         console.log('<--Logado Perfil Comum-->')
-        cy.loginViaApi('loginComum')
+        cy.loginApiSessions('loginComum')
+
         cy.getCookie('Xsrf-Token').should('exist').then((cookie) => {
         token = cookie.value;
     
     cy.fixture('processoId.json').then((id)=>{    
+        cy.log(`${id}`)
     cy.request({
         method: 'POST',
         url: `/pje-comum-api/api/processos/id/${id}/documentos/minuta/U/metadados`,   
@@ -168,7 +177,8 @@ let token;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
     it("Assinatura e Protocolo",{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, () =>{
         console.log('<--Logado Perfil Magistrado-->')
-        cy.loginViaApi('loginSecAud')
+        cy.loginApiSessions('loginSecAud')
+
         cy.getCookie('Xsrf-Token').should('exist').then((cookie) => {
         token = cookie.value;
 
@@ -222,7 +232,7 @@ let token;
     let hora = dataHoraAtual.toISOString().slice(11, 19);             
         
 
-    cy.wrap(data).as('data')
+    /*cy.wrap(data).as('data')
     cy.wrap(hora).as('hora')
     cy.get('@data').then((data) =>{
     cy.get('@hora').then((hora) =>{
@@ -245,13 +255,12 @@ let token;
         }).as("response").then((response)=>{
         console.log('***Marca audiência em horário vago')
         console.log('Audiência marcada: ', response.body)
-    })
-
+    })*/
     
 })
 })
 })
 })
 })
-})
-})
+//})
+//})
