@@ -1,4 +1,4 @@
-describe('', ()=>{
+describe('Setup Remessas', ()=>{
 
     let prioridadeBody = Cypress.env('prioridadeBody');
     let poloAtivoBody = Cypress.env('poloAtivoBody');

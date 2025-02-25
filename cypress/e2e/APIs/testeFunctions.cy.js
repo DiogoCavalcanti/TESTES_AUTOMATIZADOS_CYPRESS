@@ -31,4 +31,52 @@ describe('', ()=>{
           });
        
       })
+
+
+      it("cypress intercept example", () => {
+        cy.intercept("api/products").as("productList")
+        cy.visit("https://www.bstackdemo.com/")
+        cy.wait("@productList")
+     })
+
+     it("mock response", () => {
+        cy.intercept("GET", "api/products", {
+           statusCode: 200,
+           body: {
+            "products": [
+                {
+                    "availableSizes": [
+                        "Apple"
+                    ],
+                    "currencyFormat": "$",
+                    "currencyId": "USD",
+                    "description": "iPhone 12",
+                    "id": 1,
+                    "installments": 9,
+                    "isFav": false,
+                    "price": 799,
+                    "sku": "iPhone12-device-info.png",
+                    "title": "iPhone 12"
+                },
+                {
+                    "availableSizes": [
+                        "Apple"
+                    ],
+                    "currencyFormat": "$",
+                    "currencyId": "USD",
+                    "description": "iPhone 12 Mini",
+                    "id": 2,
+                    "installments": 9,
+                    "isFav": false,
+                    "price": 699,
+                    "sku": "iPhone12-device-info.png",
+                    "title": "iPhone 12 Mini"
+                },
+               
+            ]
+        }
+        }).as("productList")
+        cy.visit("https://www.bstackdemo.com/")
+        cy.wait("@productList")
+      })
 })

@@ -1,4 +1,4 @@
-describe('remessas', ()=>{
+describe('Remeter Processo Para o 2Grau', ()=>{
 
     let token;
     let transicoesAnaliseBody = Cypress.env('transicoesAnaliseBody')

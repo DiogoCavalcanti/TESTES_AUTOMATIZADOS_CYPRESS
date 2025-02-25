@@ -1,4 +1,4 @@
-describe('', ()=>{
+describe('Autuação, Protocolo, Assinatura e Audiência ***Session***', ()=>{
 
 let poloAtivoBody = Cypress.env('poloAtivoBody');
 let poloPassivoBody = Cypress.env('poloPassivoBody');
@@ -10,11 +10,10 @@ let minutaBody = Cypress.env('minutaBody');
 let gravacaoDocBody = Cypress.env('gravacaoDocBody');
 let assinaturaBody = Cypress.env('assinaturaBody');
 let protocoloBody = Cypress.env('protocoloBody');
-let audienciaBody = Cypress.env('audienciaBody');
 let processoId;
 let documentoId;
-let tarefaId;
 let token;
+
 
 beforeEach('Limpeza', ()=>{
     cy.clearCookies()
@@ -22,12 +21,24 @@ beforeEach('Limpeza', ()=>{
     cy.reload()
 })
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+          //Login & Token
+        
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     it("Autuação",{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, () =>{
         console.log('<--Logado Perfil Advogado-->')
         cy.loginApiSessions('loginAdv')
 
         cy.getCookie('Xsrf-Token').should('exist').then((cookie) => {
         token = cookie.value;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+          
+          //Inclui novo processo a partir dos dados iniciais (jurisdição e classe judicial)
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         
     cy.request({
         method: 'POST',
@@ -37,7 +48,7 @@ beforeEach('Limpeza', ()=>{
             'X-XSRF-TOKEN': token
         },
         failOnStatusCode: false
-        }).as("response").then((response) => {
+        }).then((response) => {
         expect(response.status).to.eq(200);
         processoId = response.body.split('/')[1];
         cy.writeFile('cypress/fixtures/processoId.json', processoId)
@@ -47,6 +58,12 @@ beforeEach('Limpeza', ()=>{
         
     })
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+          //Adiciona assunto ao processo
+        
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     cy.fixture('processoId.json').then((id)=>{
     cy.request({
         method: 'POST',
@@ -54,11 +71,17 @@ beforeEach('Limpeza', ()=>{
         body : assuntoBody,
         headers: {'X-XSRF-TOKEN': token},
         failOnStatusCode: false
-        }).as("response").then((response)=>{
+        }).then((response)=>{
         expect(response.status).to.eq(200)
         console.log('***Adiciona assunto ao processo')
         console.log('Assunto: ', response.body.assunto.descricao);
     })
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+          
+          //Adiciona Prioridade
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     prioridadeBody = JSON.stringify(prioridadeBody).replace('"{{id}}"', id);
     prioridadeBody = JSON.parse(prioridadeBody);
@@ -69,11 +92,18 @@ beforeEach('Limpeza', ()=>{
         body: prioridadeBody, 
         headers: {'X-XSRF-TOKEN': token},
         failOnStatusCode: false
-        }).as("response").then((response)=>{
+        }).then((response)=>{
         expect(response.status).to.eq(200)
         console.log('***Adiciona prioridade ao processo')
         console.log('Prioridades: ', response.body.prioridadeProcessual.descricao);
+       
     })
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+          //Adiciona Polo Ativo
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     poloAtivoBody = JSON.stringify(poloAtivoBody).replace('"{{id}}"', id);
     poloAtivoBody = JSON.parse(poloAtivoBody);
@@ -84,10 +114,16 @@ beforeEach('Limpeza', ()=>{
         body: poloAtivoBody,
         headers: {'X-XSRF-TOKEN': token},
         failOnStatusCode: false
-        }).as("response").then((response)=>{
+        }).then((response)=>{
         expect(response.status).to.eq(200)
         console.log('***Inclui partes no processo')
     })
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          
+          //Adiciona Parte Polo Passivo
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     poloPassivoBody = JSON.stringify(poloPassivoBody).replace('"{{id}}"', id);
     poloPassivoBody = JSON.parse(poloPassivoBody);
@@ -98,16 +134,28 @@ beforeEach('Limpeza', ()=>{
         body: poloPassivoBody, 
         headers: {'X-XSRF-TOKEN': token},
         failOnStatusCode: false
-        }).as("response").then((response)=>{
+        }).then((response)=>{
         expect(response.status).to.eq(200)   
     })
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          
+          //Valida se as partes foram adicionadas
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     cy.request({
         method: 'GET',
         url: `/pje-comum-api/api/processos/id/${id}/partes`
-        }).as("response").then((response)=>{
+        }).then((response)=>{
         console.log('Partes : ', response.body)
     })
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          
+          //Altera o processo passando o id do processo a ser alterado
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     alteraProcessoBody = JSON.stringify(alteraProcessoBody).replace(/"{{id}}"/g, id);
     alteraProcessoBody = JSON.parse(alteraProcessoBody);
@@ -118,7 +166,7 @@ beforeEach('Limpeza', ()=>{
         body : alteraProcessoBody, 
         headers: {'X-XSRF-TOKEN': token},
         failOnStatusCode: false
-        }).as("response").then((response)=>{
+        }).then((response)=>{
         expect(response.status).to.eq(200)
     }) 
 
@@ -126,7 +174,12 @@ beforeEach('Limpeza', ()=>{
 })
 })
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+          //Peticiona o documento
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     it("Petição Inicial",{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, () =>{
         console.log('<--Logado Perfil Comum-->')
         cy.loginApiSessions('loginComum')
@@ -142,7 +195,7 @@ beforeEach('Limpeza', ()=>{
         body: minutaBody,
         headers: {'X-XSRF-TOKEN': token},
         failOnStatusCode: false
-        }).as("response").then((response)=>{
+        }).then((response)=>{
         expect(response.status).to.eq(200)
         console.log('***Grava o conteúdo de um documento em elaboração em um processo e recupera o Id do documento')
         console.log('Petição inicial: ',response.body);
@@ -151,6 +204,12 @@ beforeEach('Limpeza', ()=>{
         cy.writeFile ('cypress/fixtures/documentoId.json', `${documentoId}`);
             
     })
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+          
+          //Grava o conteúdo de um documento HTML em elaboração na localização atual do usuário
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     cy.fixture('documentoId.json').then((docId)=>{
     gravacaoDocBody = JSON.stringify(gravacaoDocBody).replace('"{{docId}}"', docId);
@@ -161,7 +220,7 @@ beforeEach('Limpeza', ()=>{
         url: `/pje-comum-api/api/processos/id/${id}/documentos/minuta/${docId}`,
         body: gravacaoDocBody,
         headers: {'X-XSRF-TOKEN': token},
-        }).as("response").then((response)=>{
+        }).then((response)=>{
         expect(response.status).to.eq(200)
         console.log(response.body)
         })
@@ -172,9 +231,9 @@ beforeEach('Limpeza', ()=>{
 })
 })
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
     it("Assinatura e Protocolo",{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, () =>{
         console.log('<--Logado Perfil Magistrado-->')
         cy.loginApiSessions('loginSecAud')
@@ -188,25 +247,42 @@ beforeEach('Limpeza', ()=>{
         assinaturaBody = JSON.stringify(assinaturaBody).replace(/"{{id}}"/g, id).replace('"{{docId}}"', docId);
         assinaturaBody = JSON.parse(assinaturaBody);
     
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                  
+          //Realiza a assinatura utilizando um assinador com certificado do Tribunal (OTP/JTe).
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     cy.request({
         method: 'POST',
         url: '/pje-comum-api/api/assinaturas2/certificadotribunal',
         body: assinaturaBody, 
         headers: {'X-XSRF-TOKEN': token},
-        }).as("response").then((response)=>{
+        }).then((response)=>{
         expect(response.status).to.eq(200)
         console.log('***Realiza a assinatura utilizando um assinador com certificado do Tribunal (OTP/JTe).')
         console.log('Assinatura realizada: ', response.body)
     })
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          
+          //Retorna os dados da assinatura
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     cy.request({
         method: 'GET',
         url: `/pje-comum-api/api/processos/id/${id}/documentos/id/${docId}/assinatura`,
-        }).as("response").then((response)=>{
+        }).then((response)=>{
         console.log('***Retorna os dados da assinatura')
         console.log('Assinatura: ', response.body)
     })
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+                    
+          //Protocolo -> Salva as alterações e protocola o processo informado
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     protocoloBody = JSON.stringify(protocoloBody).replace(/"{{id}}"/g, id);
     protocoloBody = JSON.parse(protocoloBody);
@@ -216,7 +292,7 @@ beforeEach('Limpeza', ()=>{
         url: `/pje-comum-api/api/processos/${id}/protocolo`,
         body: protocoloBody,
         headers: {'X-XSRF-TOKEN': token},
-        }).as("response").then((response)=>{
+        }).then((response)=>{
         console.log('***Salva as alterações e protocola o processo informado')
         console.log('Processo protocolado: ', response.body)
         const nrProcesso = response.body.nrProcesso
@@ -226,13 +302,19 @@ beforeEach('Limpeza', ()=>{
         })
     })
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+          //Marcar audiência em horário vago
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     let dataHoraAtual = new Date();   
     dataHoraAtual.setDate(dataHoraAtual.getDate() + 1); 
     let data = dataHoraAtual.toISOString().slice(0, 10); 
     let hora = dataHoraAtual.toISOString().slice(11, 19);             
         
 
-    /*cy.wrap(data).as('data')
+    cy.wrap(data).as('data')
     cy.wrap(hora).as('hora')
     cy.get('@data').then((data) =>{
     cy.get('@hora').then((hora) =>{
@@ -252,15 +334,15 @@ beforeEach('Limpeza', ()=>{
                 },
         headers: {'X-XSRF-TOKEN': token},
         failOnStatusCode: false
-        }).as("response").then((response)=>{
+        }).then((response)=>{
         console.log('***Marca audiência em horário vago')
         console.log('Audiência marcada: ', response.body)
-    })*/
+    })
     
 })
 })
 })
 })
 })
-//})
-//})
+})
+})

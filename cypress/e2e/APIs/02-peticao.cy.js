@@ -1,20 +1,11 @@
 describe('Peticiona um documento passando o Id do processo', ()=>{
 
-let poloAtivoBody = Cypress.env('poloAtivoBody');
-let poloPassivoBody = Cypress.env('poloPassivoBody');
-let alteraProcessoBody = Cypress.env('alteraProcessoBody');
-let prioridadeBody = Cypress.env('prioridadeBody');
-let requestBody = Cypress.env('requestBody');
-let assuntoBody = Cypress.env('assuntoBody');
 let minutaBody = Cypress.env('minutaBody');
-let gravacaoDocBody = Cypress.env('gravacaoDocBody');
-let assinaturaBody = Cypress.env('assinaturaBody');
-let protocoloBody = Cypress.env('protocoloBody');
-let audienciaBody = Cypress.env('audienciaBody');
-let processoId;
+let gravacaoDocBody = Cypress.env('gravacaoDocBody')
 let documentoId;
-let tarefaId;
 let token;
+
+    // Deve ser executado o setupPeticao.cy.js antes de executar esse teste
 
     it("Assinatura e Protocolo",{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, () =>{
         console.log('<--Logado Perfil Magistrado-->')
@@ -31,15 +22,34 @@ let token;
                 failOnStatusCode: false
                 }).as("response").then((response)=>{
                     cy.log(response.body.mensagem)
-                    //expect(response.status).to.eq(200)
                     console.log('***Grava o conteúdo de um documento em elaboração em um processo e recupera o Id do documento')
                     console.log('Petição inicial: ',response.body);
+                    cy.writeFile ('cypress/fixtures/peticaoBody.json', response.body);
+                    
+                    //cy.wrap(response.body).its("tipo").should("eq", "Petição Inicial")
                 
                 
                 documentoId = response.body.id;
-                cy.wrap(documentoId).as('documentoId');
+                cy.writeFile ('cypress/fixtures/documentoId.json', `${documentoId}`);
                 
                 })
+
+                cy.fixture('documentoId.json').then((docId)=>{
+                    gravacaoDocBody = JSON.stringify(gravacaoDocBody).replace('"{{docId}}"', docId);
+                    gravacaoDocBody = JSON.parse(gravacaoDocBody);
+                        
+                    cy.request({
+                        method: 'PUT',
+                        url: `/pje-comum-api/api/processos/id/${id}/documentos/minuta/${docId}`,
+                        body: gravacaoDocBody,
+                        headers: {'X-XSRF-TOKEN': token},
+                        }).as("response").then((response)=>{
+                        expect(response.status).to.eq(200)
+                        console.log(response.body)
+                        })
+                
+                
+                    })
 
             
 

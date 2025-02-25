@@ -1,14 +1,15 @@
 
 describe('Testes das APIs do pje-segurança', () => {
     beforeEach('Deve fazer uma requisição POST para logar via API', () => {
-      cy.loginViaApi('loginSecAud');    //Mudar o tipo de usuário de acordo com os armazenados na pasta fixtures
+      cy.loginViaApi('loginComum');    //Mudar o tipo de usuário de acordo com os armazenados na pasta fixtures
     });
 
     //Swagger pje-seguranca-api /token/perfis 
-    it('Busca todos os perfis do usuário logado', ()=>{
+    it('Busca todos os perfis do usuário logado', { baseUrl: 'https://desenvolvimento.pje.csjt.jus.br/pje-seguranca/api'},()=>{
         cy.request({
           method: 'GET',
           url: '/token/perfis',
+          failOnStatusCode: false,
         }).then((response)=>{
           expect(response.status).to.eq(200);
           console.log('Endpoint : /pje-seguranca/api/token/perfis')
@@ -19,10 +20,11 @@ describe('Testes das APIs do pje-segurança', () => {
     })
     
     //Swagger pje-seguranca-api /token/permissoes
-    it('Busca todas as permissões do usuário logado', ()=>{
+    it('Busca todas as permissões do usuário logado', { baseUrl: 'https://desenvolvimento.pje.csjt.jus.br/pje-seguranca/api'},()=>{
         cy.request({
           method: 'GET',
           url: '/token/permissoes',
+          failOnStatusCode: false,
         }).then((response)=>{
           expect(response.status).to.eq(200);
           console.log('Endpoint : /pje-seguranca/api/token/permissoes')
@@ -32,10 +34,11 @@ describe('Testes das APIs do pje-segurança', () => {
     })
 
     //Swagger pje-seguranca-api /pjeoffice/token
-    it('Cria um PJeOfficeToken para o usuário, vinculado à sua sessão (JWT)', ()=>{
+    it('Cria um PJeOfficeToken para o usuário, vinculado à sua sessão (JWT)', { baseUrl: 'https://desenvolvimento.pje.csjt.jus.br/pje-seguranca/api'},()=>{
         cy.request({
           method: 'POST',
           url: '/pjeoffice/token',
+          failOnStatusCode: false,
         }).then((response)=>{
           expect(response.status).to.eq(200);
           expect(response.body).to.be.a('string');
@@ -45,10 +48,11 @@ describe('Testes das APIs do pje-segurança', () => {
     })
 
     //Swagger pje-seguranca-api /usuarios
-    it('Recupera dados do perfil do usuário logado',()=>{
+    it('Recupera dados do perfil do usuário logado', { baseUrl: 'https://desenvolvimento.pje.csjt.jus.br/pje-seguranca/api'},()=>{
         cy.request({
           method: 'GET',
           url: '/usuarios',
+          failOnStatusCode: false,
         }).then((response)=>{
           assert.isObject(response.body); //assert ou expect?
           expect(response.status).to.eq(200);

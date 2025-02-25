@@ -19,11 +19,12 @@ module.exports = defineConfig({
   },
   e2e: {
     setupNodeEvents(on, config) {
+      puppeteerSetup(on)
       // implement node event listeners here
       require("cypress-mochawesome-reporter/plugin")(on);
     
     },
-    baseUrl: "https://desenvolvimento.pje.csjt.jus.br/pje-seguranca/api/",
+    baseUrl: "https://desenvolvimento.pje.csjt.jus.br/pje-seguranca/api ",
   },
   
   
@@ -348,15 +349,15 @@ module.exports = defineConfig({
 "principal": true
 }
 ],
-"codigoClasseJudicial": "1004",
+"codigoClasseJudicial": "1001",
 "codigoRegionalDestino": 10,
 "codigoRegionalOrigem": 10,
 "cumprimentoDiligencia": false,
-"descricaoClasseJudicial": "Agravo de Petição",
-"descricaoCompetencia": "Turmas TRT",
+"descricaoClasseJudicial": "Agravo de Instrumento em Agravo de Petição",
+"descricaoCompetencia": "1ª Seção Especializada",
 "descricaoJurisdicao": "Tribunal Regional do Trabalho da 10ª Região",
 "faseProcessual": "CONHECIMENTO",
-"idCompetencia": 21,
+"idCompetencia": 20,
 "idJurisdicao": 40,
 "idProcesso": "{{id}}",
 "instanciaDestino": 2,

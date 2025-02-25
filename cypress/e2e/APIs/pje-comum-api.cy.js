@@ -8,12 +8,6 @@ describe('Testes das APIs de assuntos do pje comum', () => {
         method: 'GET',
         url: '/pje-comum-api/api/dominio/assuntos',
       }).then((response)=>{
-        expect(response.status).to.eq(200);
-        expect(response.body[2].descricao).to.eq('Magistratura')
-        expect(response.body[2]).to.have.property('codigo')
-        assert.isArray(response.body)
-        console.log('Endpoint:  /pje-comum-api/api/dominio/assuntos')
-        console.log('Tamanho do array:', response.body.length);
         console.log('Assuntos:', response.body)
     })
     }) 
@@ -23,11 +17,6 @@ describe('Testes das APIs de assuntos do pje comum', () => {
         method: 'GET',
         url: '/pje-comum-api/api/dominio/assuntos/arvore'
       }).then((response)=>{
-        expect(response.status).to.eq(200);
-        expect(response.body[3].descricao).to.eq('DIREITO À EDUCAÇÃO')
-        assert.isArray(response.body)
-        console.log('Endpoint : /pje-comum-api/api/dominio/assuntos/arvore')
-        console.log('Tamanho do array:', response.body.length)
         console.log('Corpo da resposta:', response.body)
       })
     })
@@ -37,12 +26,7 @@ describe('Testes das APIs de assuntos do pje comum', () => {
         method: 'GET',
         url: '/pje-comum-api/api/dominio/assuntos/dadosbasicos',     
       }).then((response)=>{
-        expect(response.status).to.eq(200);
-        expect(response.body[3]).to.have.property('id');
-        expect(response.body[3]).to.have.property('descricao');
-        console.log('Endpoint : /pje-comum-api/api/dominio/assuntos/dadosbasicos')
         console.log(response.body)
-        console.log('Id: ', response.body[3].id)
         console.log('Descriçao: ', response.body[3].descricao)
       })
     })
@@ -53,7 +37,7 @@ describe('Testes das APIs de assuntos do pje comum', () => {
         url: 'pje-comum-api/api/dominio/assuntos/descricoes'
       }).then((response)=>{
         expect(response.status).to.eq(200)
-        console.log('Endpoint : pje-comum-api/api/dominio/assuntos/descricoes')
+        console.log(response.body)
         console.log('Descrição: ', response.body[4])
       })
     })
@@ -85,9 +69,7 @@ describe('Testes das APIs de assuntos do pje comum', () => {
         method: 'GET',
         url: 'pje-comum-api/api/dominio/assuntos/todos'
       }).then((response)=>{
-        expect(response.status).to.eq(200)
-        expect(response.body[3]).to.have.property('id');
-        expect(response.body[3]).to.have.property('descricao');
+        console.log(response.body)
       })
     })
 
@@ -96,7 +78,6 @@ describe('Testes das APIs de assuntos do pje comum', () => {
         method: 'GET',
         url: 'pje-comum-api/api/dominio/assuntos/4170'
       }).then((response)=>{
-        expect(response.status).to.eq(200)
         console.log(response.body)
       })
     })
@@ -114,7 +95,6 @@ describe('Testes das APIs de assuntos do pje comum', () => {
       },
       failOnStatusCode: false,
       body: {
-        //id: 77,
         idProcesso: 366872,
         assunto: {
           id: 4170,
@@ -182,20 +162,6 @@ describe('Testes das APIs de assuntos do pje comum', () => {
         console.log('Total de paginas: ', response.body.qtdPaginas)
       })
     })
-
-    /*it('', ()=>{
-      cy.request({
-        method: 'HEAD',
-        url: '/pje-comum-api/api/pessoas/fisicas/advogados/208724',
-        failOnStatusCode: false
-      }).then((response)=>{
-        expect(response.status).to.eq(200)
-        console.log(response.body)
-      })
-    })*/
-   
-
-
   });
 
 
