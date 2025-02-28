@@ -19,7 +19,7 @@ jobs:
     # explicitly set the output of this job
     # so that other jobs can use it
     outputs:
-      matrix: ${{ steps.prepare.outputs.matrix }}
+      matrix: ${{ steps.setup.outputs.matrix }}
     steps:
       # generate the list using a bash script
       - name: Create matrix ⊹
