@@ -1,52 +1,56 @@
-name: Execução automação de testes
-
-on:
-  workflow_dispatch:
-    inputs:
-      amb:
-        description: 'Selecionar algum destes ambientes: dev / hlg / prd'
-        required: false
-        default: 'hlg'
-      browser:
-        description: 'Selecionar algum destes browsers: chrome / electron'
-        required: false
-        default: 'chrome'
-      tag:
-        description: 'Selecionar alguma tag, por exemplo: @regressivo / @smoke / @login'
-        required: false
-        default: '@regressivo'
-      commit:
-    branches: [ main, release/develop ]
-  schedule:
-    - cron: "0 0 * * *"
-    
-env:
-  DEFAULT_AMB: "hlg"
-  DEFAULT_BROWSER: "chrome"
-  DEFAULT_TAG: "@regressivo"
-
+name: ci
+on: push
 jobs:
+  # example running all tests on a single machine
   test:
-    name: Cypress run
     runs-on: ubuntu-22.04
-    container: cypress/browsers:node14.16.0-chrome90-ff88
     steps:
-      - uses: actions/checkout@v2
-      - name: Cypress run 
-        uses: cypress-io/github-action@v2
-        with: 
-          command: npx cypress run --config-file config/${{github.event.inputs.amb || env.DEFAULT_AMB}}.json --browser ${{github.event.inputs.browser || env.DEFAULT_BROWSER}} --env grepTags=${{github.event.inputs.tag || env.DEFAULT_TAG}}
-      - name: Generate Allure Report
-        uses: simple-elf/allure-report-action@master
-        if: always()
+      - name: Checkout 🛎
+        uses: actions/checkout@v4
+
+      - name: Run Cypress tests 🧪
+        # https://github.com/cypress-io/github-action
+        uses: cypress-io/github-action@v5
+
+  # example splitting all tests across GitHub machines
+  prepare:
+    runs-on: ubuntu-22.04
+    # explicitly set the output of this job
+    # so that other jobs can use it
+    outputs:
+      matrix: ${{ steps.prepare.outputs.matrix }}
+    steps:
+      # generate the list using a bash script
+      - name: Create matrix ⊹
+        id: prepare
+        # for reusable workflow, must use the full action reference
+        uses: bahmutov/gh-build-matrix@main
         with:
-          allure_results: allure-results
-          allure_history: allure-history
-          keep_reports: 20
-      - name: Deploy report to Github Pages
-        if: always()
-        uses: peaceiris/actions-gh-pages@v2
+          n: 3 # number of containers to output
+
+      - name: Print result 🖨
+        run: echo '${{ steps.prepare.outputs.matrix }}'
+
+  test-split:
+    needs: prepare
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v4
+
+      - name: Print GitHub variables 🖨
+        run: npx @bahmutov/print-env GITHUB
+
+      - name: Print GitHub strategy context 🖨
+        run: echo '${{ toJSON(strategy) }}'
+
+      - name: Run split Cypress tests 🧪
+        # https://github.com/cypress-io/github-action
+        uses: cypress-io/github-action@v5
         env:
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: allure-history
+          SPLIT: ${{ strategy.job-total }}
+          SPLIT_INDEX: ${{ strategy.job-index }}
+          DEBUG: cypress-split
