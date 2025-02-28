@@ -2,7 +2,7 @@ name: ci
 on: push
 jobs:
   # example running all tests on a single machine
-  test:
+  teste:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout 🛎
@@ -13,7 +13,8 @@ jobs:
         uses: cypress-io/github-action@v5
 
   # example splitting all tests across GitHub machines
-  prepare:
+  #prepare:
+  setup:
     runs-on: ubuntu-22.04
     # explicitly set the output of this job
     # so that other jobs can use it
@@ -31,8 +32,8 @@ jobs:
       - name: Print result 🖨
         run: echo '${{ steps.prepare.outputs.matrix }}'
 
-  test-split:
-    needs: prepare
+  teste-paralelo:
+    needs: setup
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
