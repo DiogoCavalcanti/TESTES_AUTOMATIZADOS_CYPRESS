@@ -23,7 +23,7 @@ jobs:
     steps:
       # generate the list using a bash script
       - name: Create matrix ⊹
-        id: prepare
+        id: setup
         # for reusable workflow, must use the full action reference
         uses: bahmutov/gh-build-matrix@main
         with:
