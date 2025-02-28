@@ -29,9 +29,15 @@ Cypress.Commands.add('loginViaApi', (loginTipo)=>{
         }).then((response) => {
             expect(response.status).to.eq(200); 
             cy.log(JSON.stringify(response.body)); 
+            /*cy.getCookies().then((cookies) => {
+              cookies.forEach((cookie) => {
+                Cypress.env(cookie.name, cookie.value);
+                console.log(cookie.name, cookie.value);
         });  
-        });
+        });*/
     });
+  })
+})
 
 
 Cypress.Commands.add('loginApiSessions', (loginTipo)=>{

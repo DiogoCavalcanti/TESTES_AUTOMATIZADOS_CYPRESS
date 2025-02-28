@@ -19,12 +19,13 @@ module.exports = defineConfig({
   },
   e2e: {
     setupNodeEvents(on, config) {
-      puppeteerSetup(on)
+      //puppeteerSetup(on)
       // implement node event listeners here
       require("cypress-mochawesome-reporter/plugin")(on);
     
     },
-    baseUrl: "https://desenvolvimento.pje.csjt.jus.br/pje-seguranca/api ",
+    
+    baseUrl: "https://desenvolvimento.pje.csjt.jus.br/pje-seguranca/api/",
   },
   
   

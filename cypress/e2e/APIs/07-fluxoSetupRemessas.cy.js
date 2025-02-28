@@ -113,7 +113,7 @@ describe('Setup Remessas', ()=>{
 
     it("Assinatura e Protocolo",{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, () =>{
         console.log('<--Logado Perfil Magistrado-->')
-        cy.loginViaApi('loginComum')
+        cy.loginViaApi('loginMagistrado')
         cy.getCookie('Xsrf-Token').should('exist').then((cookie) => {
         token = cookie.value;
     })
@@ -183,7 +183,7 @@ describe('Setup Remessas', ()=>{
             console.log('Processo protocolado: ', response.body)
             })
 
-            cy.request({
+            /*cy.request({
               method: 'POST',
               url: `pje-comum-api/api/processos/id/${id}/tarefas/63/transicoes`,
               body: {
@@ -201,7 +201,7 @@ describe('Setup Remessas', ()=>{
               console.log('Id da tarefa: ', response.body.idTarefa)
               //tarefaId = response.body.idTarefa;
               //cy.wrap(tarefaId).as('tarefaId');
-            })
+            })*/
 })
 })
 })

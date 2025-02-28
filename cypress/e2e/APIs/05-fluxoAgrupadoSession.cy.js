@@ -181,7 +181,7 @@ beforeEach('Limpeza', ()=>{
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     it("Petição Inicial",{ baseUrl: 'https://desenvolvimento.pje.csjt.jus.br'}, () =>{
-        console.log('<--Logado Perfil Comum-->')
+        console.log('<--Logado Perfil Servidor-->')
         cy.loginApiSessions('loginComum')
 
         cy.getCookie('Xsrf-Token').should('exist').then((cookie) => {
@@ -197,7 +197,7 @@ beforeEach('Limpeza', ()=>{
         failOnStatusCode: false
         }).then((response)=>{
         expect(response.status).to.eq(200)
-        console.log('***Grava o conteúdo de um documento em elaboração em um processo e recupera o Id do documento')
+        console.log('***Peticiona o documento em elaboração em um processo e recupera o Id do documento')
         console.log('Petição inicial: ',response.body);
             
         documentoId = response.body.id;
@@ -328,7 +328,7 @@ beforeEach('Limpeza', ()=>{
                 "horarioFinal": `${hora}`,                  
                 "horarioInicial": `${hora}`,               
                 "idProcesso": `${id}`,
-                "idSalaFisica": 277,
+                "idSalaFisica": 253,
                 "idTipoAudiencia": 3,
                 "validarHorario": true
                 },

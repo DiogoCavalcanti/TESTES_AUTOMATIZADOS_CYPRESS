@@ -26,8 +26,7 @@ describe('Testes das APIs de assuntos do pje comum', () => {
         method: 'GET',
         url: '/pje-comum-api/api/dominio/assuntos/dadosbasicos',     
       }).then((response)=>{
-        console.log(response.body)
-        console.log('Descriçao: ', response.body[3].descricao)
+        console.log('Descriçao: ', response.body)
       })
     })
 
@@ -37,8 +36,7 @@ describe('Testes das APIs de assuntos do pje comum', () => {
         url: 'pje-comum-api/api/dominio/assuntos/descricoes'
       }).then((response)=>{
         expect(response.status).to.eq(200)
-        console.log(response.body)
-        console.log('Descrição: ', response.body[4])
+        console.log('Descrição Assuntos: ', response.body)
       })
     })
 
@@ -69,7 +67,7 @@ describe('Testes das APIs de assuntos do pje comum', () => {
         method: 'GET',
         url: 'pje-comum-api/api/dominio/assuntos/todos'
       }).then((response)=>{
-        console.log(response.body)
+        console.log('Assuntos não adicionados ao processo :', response.body)
       })
     })
 

@@ -24,7 +24,7 @@ describe('Remeter Processo Para o 2Grau', ()=>{
             headers:{'X-XSRF-TOKEN': token},
             body: transicoesAnaliseBody,
             failOnStatusCode:false
-        }).as("response").then((response)=>{
+        }).then((response)=>{
             console.log(response.body)
         })
 
@@ -34,7 +34,7 @@ describe('Remeter Processo Para o 2Grau', ()=>{
             headers: {'X-XSRF-TOKEN': token},
             body:{"idProcesso": `${id}`},
             failOnStatusCode:false
-        }).as("response").then((response)=>{
+        }).then((response)=>{
             console.log(response.body)
         })
 
@@ -48,17 +48,17 @@ describe('Remeter Processo Para o 2Grau', ()=>{
             headers: {'X-XSRF-TOKEN': token},
             body: transicoesRemeterBody,
             failOnStatusCode:false
-        }).as("response").then((response)=>{
+        }).then((response)=>{
             console.log(response.body)
         })
 
         cy.request({
             method: 'PUT',
-            url: `/pje-comum-api/api/processos/id/369017/tarefas/199/`,
+            url: `/pje-comum-api/api/processos/id/${id}/tarefas/199/`,
             headers: {'X-XSRF-TOKEN': token},
             body:{"idProcesso": `${id}`},
             failOnStatusCode:false
-        }).as("response").then((response)=>{
+        }).then((response)=>{
             console.log(response.body)
         })
 
@@ -72,7 +72,7 @@ describe('Remeter Processo Para o 2Grau', ()=>{
             headers: {'X-XSRF-TOKEN': token},
             body: remessasBody,
             failOnStatusCode:false
-        }).as("response").then((response)=>{
+        }).then((response)=>{
             console.log(response.body)
         })
     })
