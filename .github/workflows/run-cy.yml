@@ -30,14 +30,14 @@ jobs:
           n: 3 # number of containers to output
 
       - name: Print result 🖨
-        run: echo '${{ steps.prepare.outputs.matrix }}'
+        run: echo '${{ steps.setup.outputs.matrix }}'
 
   teste-paralelo:
     needs: setup
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
-      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+      matrix: ${{ fromJSON(needs.setup.outputs.matrix) }}
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v4
