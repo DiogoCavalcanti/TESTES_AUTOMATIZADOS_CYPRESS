@@ -1,14 +1,4 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
+
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
 Cypress.Commands.add('loginMagistrado', () => {
@@ -39,26 +29,38 @@ Cypress.Commands.add('loginViaApi', (loginTipo)=>{
         }).then((response) => {
             expect(response.status).to.eq(200); 
             cy.log(JSON.stringify(response.body)); 
-            cy.getCookies().then((cookies) => {
+            /*cy.getCookies().then((cookies) => {
               cookies.forEach((cookie) => {
                 Cypress.env(cookie.name, cookie.value);
-                //console.log(cookie.name, cookie.value);
-            });
-        });
+                console.log(cookie.name, cookie.value);
+        });  
+        });*/
     });
-});
-});
+  })
+})
 
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+Cypress.Commands.add('loginApiSessions', (loginTipo)=>{
+    let fixturePath = loginTipo || 'loginComum';
+    let tipoSession = loginTipo || 'loginComum';
+    cy.fixture(fixturePath).then((loginData) => {
+        cy.session(tipoSession, ()=>{
+        cy.request({
+            method: 'POST',
+            url: 'https://desenvolvimento.pje.csjt.jus.br/primeirograu/logar.seam',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              Accept: '*/*'
+            },
+            body: loginData,
+          }).then((response) => {
+              expect(response.status).to.eq(200); 
+              cy.log(JSON.stringify(response.body)); 
+          });  
+        })
+})
+})
+
+
+
+ 

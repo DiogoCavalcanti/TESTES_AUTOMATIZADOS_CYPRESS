@@ -1,5 +1,4 @@
 node_modules
 node_modules
-cypress/reports/html/videos/
-cypress/screenshots/
+cypress/reports/
 cypress/videos/

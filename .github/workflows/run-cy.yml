@@ -1,5 +1,10 @@
-name: ci
-on: push
+name: Cypress Tests
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   # example running all tests on a single machine
   test:
