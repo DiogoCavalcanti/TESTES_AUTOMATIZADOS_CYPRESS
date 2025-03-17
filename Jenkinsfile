@@ -8,7 +8,7 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        /*stage('Checkout') {
             steps {
                 git branch: 'apis', url: 'https://github.com/DiogoCavalcanti/TESTES_AUTOMATIZADOS_CYPRESS.git'
             }
@@ -18,7 +18,7 @@ pipeline {
             steps{
                 sh "npm config set proxy http://127.0.0.1:3128"
             }
-        }
+        }*/
 
         stage('Install Dependencies') {
             steps {
