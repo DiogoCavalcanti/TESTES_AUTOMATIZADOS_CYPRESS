@@ -5,6 +5,7 @@ const puppeteerSetup = require("./cypress/support/puppeteer");
 const { getChromiumWebBrowsers } = require("./cypress/support/utils");
 
 module.exports = defineConfig({
+  projectId: "2zksxn",
   reporter: "cypress-multi-reporters",
 
   reporterOptions: {
